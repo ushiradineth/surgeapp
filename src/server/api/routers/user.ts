@@ -24,4 +24,16 @@ export const userRouter = createTRPCRouter({
       }
     });
   }),
+
+  getUserById: protectedProcedure.input(z.object({ id: z.string() })).query(({ input, ctx }) => {
+    return ctx.prisma.user.findFirstOrThrow({
+      where: {
+        id: input.id
+      }, 
+      include: {
+        posts: true,
+        likes: true
+      }
+    });
+  }),
 });
