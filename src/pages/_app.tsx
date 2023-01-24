@@ -14,7 +14,6 @@ export const DataContext = createContext<MemoType | undefined | null>(null);
 
 const MyApp: AppType<{ session: Session | null }> = ({ Component, pageProps: { session, ...pageProps } }) => {
   const [user, setUser] = useState(null);
-  const [create, setCreate] = useState(false);
   const [status, setStatus] = useState("");
   const supabase = createClient("https://" + env.NEXT_PUBLIC_SUPABASE_URL, env.NEXT_PUBLIC_SUPABASE_PUBLIC_ANON_KEY);
 
@@ -31,7 +30,7 @@ const MyApp: AppType<{ session: Session | null }> = ({ Component, pageProps: { s
         <>
           <GetUser user={user} setUser={setUser} status={status} setStatus={setStatus} enabled={false} />
           <DataContext.Provider value={value}>
-            <NavBar user={user} create={create} setCreate={setCreate} />
+            <NavBar user={user} />
             <Component {...pageProps} />
           </DataContext.Provider>
         </>
