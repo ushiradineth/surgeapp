@@ -2,18 +2,22 @@ import { useSession } from "next-auth/react";
 import Head from "next/head";
 import Image from "next/image";
 import { useRouter } from "next/router";
-import React from "react";
+import React, { useContext } from "react";
 import Spinner from "../../components/Spinner";
 import { UnAuthedReminder } from "../../components/UnAuthedReminder";
 import { api } from "../../utils/api";
 import { IoMdAlbums } from "react-icons/io";
 import { FiCamera } from "react-icons/fi";
+import { DataContext } from "../_app";
 
 const Profile = () => {
   const { data: session, status } = useSession();
   const router = useRouter();
   const profile = router.query.profile as string;
-  const page = api.user.getUser.useQuery({ handle: profile }, { retry: false, refetchOnWindowFocus: false });
+  const data = useContext(DataContext);
+  
+  const query = api.user.getUser.useQuery({ handle: String(profile) }, { retry: false, refetchOnWindowFocus: false, enabled: Boolean(((status === "authenticated" && session?.user?.handle !== String(profile)) || status === "unauthenticated") && !router.query.user) });
+  const page = session?.user?.handle !== String(profile) ? query : data?.user;
 
   const UserDetails = () => {
     return (
@@ -71,7 +75,7 @@ const Profile = () => {
     );
   };
 
-  if (page.data) {
+  if (page?.data) {
     return (
       <>
         <Head>
