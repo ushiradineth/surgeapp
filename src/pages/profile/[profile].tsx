@@ -83,8 +83,8 @@ const Profile = () => {
     return (
       <>
         <Head>
-          <title>{`${page?.data?.name} (@${page?.data?.handle})	• Clonegram`}</title>
-          <meta name="description" content="Clonegram by Ushira Dineth" />
+          <title>{`${page?.data?.name} (@${page?.data?.handle})	• SurgeApp`}</title>
+          <meta name="description" content="SurgeApp by Ushira Dineth" />
           <link rel="icon" href={"/favicon.ico"} />
         </Head>
         <main>

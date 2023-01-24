@@ -12,7 +12,7 @@ const Index = () => {
     <>
       <Head>
         <title>Welcome!</title>
-        <meta name="description" content="Ushira Dineth" />
+        <meta name="description" content="SurgeApp by Ushira Dineth" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <main className="flex min-h-screen flex-col items-center justify-center bg-zinc-900 text-gray-300">{status === "loading" ? <Spinner /> : status === "authenticated" ? <Home /> : <Auth />}</main>

@@ -13,7 +13,7 @@ const Error = (props: itemType) => {
     <>
       <Head>
         <title>Error • Clonegram</title>
-        <meta name="description" content="Clonegram by Ushira Dineth" />
+        <meta name="description" content="SurgeApp by Ushira Dineth" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <main className="grid h-screen place-items-center bg-zinc-900 text-3xl font-light text-white">{props.error}</main>

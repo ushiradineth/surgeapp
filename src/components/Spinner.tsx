@@ -21,7 +21,7 @@ const Spinner = (props: itemType) => {
     <>
       <Head>
         <title>Loading...</title>
-        <meta name="description" content="Clonegram by Ushira Dineth" />
+        <meta name="description" content="SurgeApp by Ushira Dineth" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <main className={"flex min-h-screen flex-col items-center justify-center " + (!props.removeBackground && "bg-zinc-900")}>

@@ -101,7 +101,7 @@ const Create = () => {
     <>
       <Head>
         <title>Create</title>
-        <meta name="description" content="Ushira Dineth" />
+        <meta name="description" content="SurgeApp by Ushira Dineth" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <main className="h-screen w-screen bg-zinc-700">
