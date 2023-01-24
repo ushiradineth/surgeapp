@@ -29,7 +29,7 @@ const PostItem = (props: { postID?: string; post?: any }) => {
 
   const query = api.post.getPost.useQuery({ id: props.postID || "0" }, { retry: false, refetchOnWindowFocus: false, enabled: Boolean(props.postID) });
 
-  const post = props.postID ? query : props.post;  
+  const post = props.postID ? query : props.post;
 
   const likePost = api.post.likePost.useMutation({
     onMutate: () => {
@@ -93,7 +93,7 @@ const PostItem = (props: { postID?: string; post?: any }) => {
               {(post.data?.likes.length || 0) > 0 && post.data?.likes.length + " " + ((post.data?.likes.length || 0) > 1 ? "likes" : "like")}
             </div>
           )}
-          <p className="mt-1 pl-4 font-mono text-xs text-zinc-300">{post.data?.caption} </p>
+          {post.data.caption && <p className="mt-1 truncate pl-4 text-xs font-semibold text-zinc-300">{post.data?.caption}</p>}
           <p className="mt-1 pl-4 font-mono text-xs text-zinc-300">{moment(post.data.createdAt).fromNow()} </p>
         </div>
       </>
@@ -107,9 +107,6 @@ const PostItem = (props: { postID?: string; post?: any }) => {
       </div>
     );
   };
-
-  console.log(post.data?.caption);
-  
 
   const Footer = () => {
     return (
