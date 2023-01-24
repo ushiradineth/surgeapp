@@ -16,7 +16,7 @@ const NavBar = (props: { user: any }) => {
   if (typeof session === "undefined" || session === null || typeof session.user === "undefined" || [""].includes(router.pathname)) return <></>;
 
   return (
-    <div className={"group fixed bottom-6 left-6"}>
+    <div className={"group fixed bottom-6 left-6 z-50"}>
       <button type="button" aria-haspopup="true" className="rounded-full bg-black">
         <NavBarItem Icon={<HiOutlineMenu />} IconOnClick={<HiMenu />} onClickHandler={() => setSideBar(true)} active={sideBar} />
       </button>
