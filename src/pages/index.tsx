@@ -15,7 +15,7 @@ const Index = () => {
         <meta name="description" content="Ushira Dineth" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      <main className="flex min-h-screen flex-col items-center justify-center bg-zinc-900 text-white">{status === "loading" ? <Spinner /> : status === "authenticated" ? <Home /> : <Auth />}</main>
+      <main className="flex min-h-screen flex-col items-center justify-center bg-zinc-900 text-gray-300">{status === "loading" ? <Spinner /> : status === "authenticated" ? <Home /> : <Auth />}</main>
     </>
   );
 };
