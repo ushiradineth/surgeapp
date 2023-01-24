@@ -26,7 +26,7 @@ const PostItem = (props: { postID?: string; post?: any }) => {
   const { status } = useSession();
   const data = useContext(DataContext);
 
-  const query = api.post.getPost.useQuery({ id: props.postID || "0" }, { retry: false, refetchOnWindowFocus: false, enabled: Boolean(props.postID), onSuccess: (d) => setLike(Boolean(d?.likes.find((e) => e.id === data?.user?.data.id))) });
+  const query = api.post.getPost.useQuery({ id: props.postID || "0" }, { retry: false, refetchOnWindowFocus: false, enabled: Boolean(props.postID) });
 
   const post = props.postID ? query : props.post;
 
@@ -57,6 +57,10 @@ const PostItem = (props: { postID?: string; post?: any }) => {
       data?.user?.refetch;
     },
   });
+
+  React.useEffect(() => {
+    post.isSuccess && setLike(Boolean(post?.data.likes.find((e: { id: string | undefined }) => e.id === data?.user?.data.id)));
+  }, [post.isSuccess]);
 
   const ProfileView = () => {
     return (

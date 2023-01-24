@@ -21,7 +21,7 @@ const Home = () => {
         {posts.data?.map((post, index) => {
           return (
             <div key={index}>
-              <PostItem key={index} post={{ data: post, isLoading: posts.isLoading, isError: posts.isError, isSuccess: posts.isSuccess }} />
+              <PostItem key={index} post={{ data: post, isLoading: posts.isLoading, isError: posts.isError, isSuccess: posts.isSuccess, isFetching: posts.isFetching }} />
             </div>
           );
         })}
