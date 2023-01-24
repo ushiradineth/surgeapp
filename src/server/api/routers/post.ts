@@ -1,15 +1,23 @@
 import { z } from "zod";
-
 import { createTRPCRouter, publicProcedure, protectedProcedure } from "../trpc";
 
 export const postRouter = createTRPCRouter({
-  setPost: protectedProcedure.input(z.object({ id: z.string(), links: z.array(z.string()), caption: z.string().nullish() })).mutation(({ input, ctx }) => {
-    return ctx.prisma.post.create({
-      data: {
-        user: { connect: { id: input.id } },
-        caption: input.caption || "",
-        imageURLs: input.links,
+  getAllPosts: publicProcedure.query(({ ctx }) => {
+    return ctx.prisma.post.findMany({
+      include: {
+        user: true,
+        likes: true,
       },
+      orderBy: [
+        {
+          likes: {
+            _count: "desc"
+          }
+        },{
+          createdAt: "desc",
+        },
+      ],
+      take: 10
     });
   }),
 
@@ -21,6 +29,16 @@ export const postRouter = createTRPCRouter({
       include: {
         user: true,
         likes: true,
+      },
+    });
+  }),
+
+  setPost: protectedProcedure.input(z.object({ id: z.string(), links: z.array(z.string()), caption: z.string().nullish() })).mutation(({ input, ctx }) => {
+    return ctx.prisma.post.create({
+      data: {
+        user: { connect: { id: input.id } },
+        caption: input.caption || "",
+        imageURLs: input.links,
       },
     });
   }),
