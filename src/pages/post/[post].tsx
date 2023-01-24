@@ -1,7 +1,155 @@
-import React from 'react'
+import React, { useState } from "react";
+import { DataContext } from "../_app";
+import { useContext } from "react";
+import Head from "next/head";
+import { useRouter } from "next/router";
+import { api } from "../../utils/api";
+import { useSession } from "next-auth/react";
+import Image from "next/image";
+import { BiChevronRight, BiChevronLeft } from "react-icons/bi";
+import Spinner from "../../components/Spinner";
+import Error from "../../components/Error";
+import { AiOutlineHeart, AiFillHeart } from "react-icons/ai";
+import Link from "next/link";
+import { MdOutlineDeleteOutline } from "react-icons/md";
+import OptionMenu from "../../components/OptionMenu";
+import ListOfUsers from "../../components/ListOfUsers";
+import { UnAuthedReminder } from "../../components/UnAuthedReminder";
 
-export const Post = () => {
-  return (
-    <div>post</div>
-  )
-}
+const Post = () => {
+  const [imageIndex, setImageIndex] = useState(0);
+  const [like, setLike] = useState<boolean | null>(null);
+  const [deleteMenu, setDeleteMenu] = useState(false);
+  const [likesMenu, setLikesMenu] = useState(false);
+
+  const router = useRouter();
+  const postID = router.query.post as string;
+  const { data: session, status } = useSession();
+  const data = useContext(DataContext);
+  const post = api.post.getPost.useQuery({ id: postID }, { retry: false, refetchOnWindowFocus: false, onSuccess: (d) => setLike(Boolean(d?.likes.find((e) => e.id === data?.user?.data.id))) });
+
+  const likePost = api.post.likePost.useMutation({
+    onMutate: () => {
+      setLike(true);
+    },
+    onSuccess: (d) => {
+      post.data?.likes.push(d.q2);
+    },
+  });
+
+  const unlikePost = api.post.unlikePost.useMutation({
+    onMutate: () => {
+      setLike(false);
+    },
+    onSuccess: (d) => {
+      post.data?.likes.splice(
+        post.data?.likes.findIndex((e) => e.id === d.q2.id),
+        1
+      );
+      console.log(post.data?.likes);
+    },
+  });
+
+  const deletePost = api.post.deletePost.useMutation({
+    onSuccess: () => {
+      router.push("/");
+      data?.user?.refetch;
+    },
+  });
+
+  const ProfileView = () => {
+    return (
+      <div className={"mt-5 flex h-12 w-fit items-center justify-center px-4 "}>
+        <Image className={"h-12 w-12 cursor-pointer rounded-full"} onClick={() => router.push("/profile/" + data?.user?.data.handle)} src={post.data?.user.image || ""} height={160} width={160} alt="Profile Picture" priority />
+        <div className="m-4 flex w-full flex-col justify-center gap-1 truncate">
+          <div className="flex gap-2">
+            <Link passHref href={"/profile/" + data?.user?.data.handle} className={"cursor-pointer " + post.data?.user.handle !== data?.user?.data.handle ? " w-[60%] " : ""}>
+              {post.data?.user.handle}
+            </Link>
+          </div>
+        </div>
+      </div>
+    );
+  };
+
+  const InteractionBar = () => {
+    return (
+      <>
+        <div className="mb-2 grid grid-flow-col place-items-start">
+          <div className={"child-hover:text-zinc-600 mt-4 grid h-fit w-fit scale-[1.6] grid-flow-col gap-2 " + (post.data?.user.handle === data?.user?.data.handle ? " pl-5 " : " pl-4 ")}>
+            {likePost.isLoading || unlikePost.isLoading || post.isFetching ? <Spinner SpinnerOnly={true} size={4} /> : like ? <AiFillHeart className="cursor-pointer text-red-500" onClick={() => unlikePost.mutate({ userid: data?.user?.data.id || "", postid: post.data?.id || "" })} /> : <AiOutlineHeart className="cursor-pointer" onClick={() => likePost.mutate({ userid: data?.user?.data.id || "", postOwnerid: post.data?.userId || "", postid: post.data?.id || "" })} />}
+            {post.data?.user.handle === data?.user?.data.handle && <MdOutlineDeleteOutline className="cursor-pointer" onClick={() => setDeleteMenu(true)} />}
+       
+          </div>
+        </div>
+        <div className="pb-3 pt-2">
+          {(post.data?.likes.length || 0) > 0 && (
+            <div className="mt-1 cursor-pointer pl-3 text-xs text-zinc-300" onClick={() => setLikesMenu(true)}>
+              {(post.data?.likes.length || 0) > 0 && post.data?.likes.length + " " + ((post.data?.likes.length || 0) > 1 ? "likes" : "like")}
+            </div>
+          )}
+          <p className="pl-4 font-mono text-xs text-zinc-300">{new Intl.DateTimeFormat("en-US", { month: "long" }).format(post.data?.createdAt.getMonth()).toUpperCase() + " " + post.data?.createdAt.getDate() + ", " + post.data?.createdAt.getFullYear()} </p>
+        </div>
+      </>
+    );
+  };
+
+  const Header = () => {
+    return (
+      <div className={"z-10 flex h-fit w-[400px] items-center justify-start rounded-t-2xl border-b border-zinc-600 bg-zinc-900 pl-4 pb-5 text-gray-300"}>
+        <ProfileView />
+      </div>
+    );
+  };
+
+  const Footer = () => {
+    return (
+      <div className={"flex h-fit w-[400px] flex-col items-center justify-start rounded-b-2xl border-t border-zinc-600 bg-zinc-900 text-gray-300"}>
+        <div className="grid w-full border-zinc-600">
+          <InteractionBar />
+        </div>
+      </div>
+    );
+  };
+
+  const PostView = () => {
+    return (
+      <div className={"grid h-[500px] w-[400px] transform place-items-center bg-zinc-900 text-gray-300"}>
+        <div className="flex h-fit max-h-[400px] w-fit max-w-[350px] items-center justify-center p-2 transition-all duration-300">
+          <BiChevronLeft onClick={() => imageIndex > 0 && setImageIndex(imageIndex - 1)} className={"fixed left-4 top-[50%] h-4 w-4 scale-150 rounded-full bg-zinc-600 object-contain " + (imageIndex > 0 ? " cursor-pointer hover:bg-white hover:text-zinc-600 " : " opacity-0 ")} />
+          <BiChevronRight onClick={() => imageIndex < (post.data?.imageURLs.length || 0) - 1 && setImageIndex(imageIndex + 1)} className={"fixed top-[50%] right-4 h-4 w-4 scale-150 rounded-full bg-zinc-600 object-contain " + (imageIndex < (post.data?.imageURLs.length || 0) - 1 ? " cursor-pointer hover:bg-white hover:text-zinc-600 " : " opacity-0 ")} />
+          <Image src={post.data?.imageURLs[imageIndex] || "/image-placeholder.png"} key="image" className="h-full w-full object-cover" height={1000} width={1000} alt={"images"} />
+        </div>
+      </div>
+    );
+  };
+
+  if (post.isError) return <Error error="Post not found" />;
+  if (post.isLoading) return <Spinner />;
+
+  if (post.isSuccess) {
+    return (
+      <>
+        <Head>
+          <title>{`${post?.data?.user.handle} on Clonegram`}</title>
+          <meta name="description" content="Clonegram by Ushira Dineth" />
+          <link rel="icon" href={"/favicon.ico"} />
+        </Head>
+        <main>
+          {status === "unauthenticated" && <UnAuthedReminder />}
+          <div className={"flex h-screen select-none flex-col items-center justify-center bg-zinc-700"}>
+            {deleteMenu && <OptionMenu buttonPositive="Delete" buttonNegative="Cancel" description="Do you want to delete this post?" title="Delete post?" onClickPositive={() => deletePost.mutate({ id: post.data?.id || "" })} onClickNegative={() => setDeleteMenu(false)} />}
+            {likesMenu && <ListOfUsers users={post.data?.likes} onClickNegative={() => setLikesMenu(false)} title="Likes" userHandle={data?.user?.data.handle} userID={data?.user?.data.id} pageID={"0"} />}
+            <Header />
+            <PostView />
+            <Footer />
+          </div>
+        </main>
+      </>
+    );
+  }
+
+  return <Spinner />;
+};
+
+export default Post;
