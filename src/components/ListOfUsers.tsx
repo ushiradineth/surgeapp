@@ -37,7 +37,7 @@ const ListOfUsers = (props: itemType) => {
               </div>
             </div>
           )}
-          <div className="mt-6 grid w-full grid-flow-row place-items-center border-t-2 border-zinc-700 bg-zinc-900 py-4  font-semibold text-gray-300"></div>
+          <div className="mt-6 grid w-full grid-flow-row place-items-center rounded-b-2xl border-t-2 border-zinc-700 bg-zinc-900 py-4 font-semibold text-gray-300"></div>
         </>
       </div>
     </div>
