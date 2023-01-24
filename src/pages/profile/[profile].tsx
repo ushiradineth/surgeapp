@@ -9,6 +9,7 @@ import { api } from "../../utils/api";
 import { IoMdAlbums } from "react-icons/io";
 import { FiCamera } from "react-icons/fi";
 import { DataContext } from "../_app";
+import Error from "../../components/Error";
 
 const Profile = () => {
   const { data: session, status } = useSession();
@@ -74,6 +75,8 @@ const Profile = () => {
       </div>
     );
   };
+
+  if(page?.isError) return <Error error="User not found" />
 
   if (page?.data) {
     return (
