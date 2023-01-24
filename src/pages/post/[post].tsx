@@ -79,12 +79,11 @@ const Post = () => {
           <div className={"child-hover:text-zinc-600 mt-4 grid h-fit w-fit scale-[1.6] grid-flow-col gap-2 " + (post.data?.user.handle === data?.user?.data.handle ? " pl-5 " : " pl-4 ")}>
             {likePost.isLoading || unlikePost.isLoading || post.isFetching ? <Spinner SpinnerOnly={true} size={4} /> : like ? <AiFillHeart className="cursor-pointer text-red-500" onClick={() => unlikePost.mutate({ userid: data?.user?.data.id || "", postid: post.data?.id || "" })} /> : <AiOutlineHeart className="cursor-pointer" onClick={() => likePost.mutate({ userid: data?.user?.data.id || "", postOwnerid: post.data?.userId || "", postid: post.data?.id || "" })} />}
             {post.data?.user.handle === data?.user?.data.handle && <MdOutlineDeleteOutline className="cursor-pointer" onClick={() => setDeleteMenu(true)} />}
-       
           </div>
         </div>
         <div className="pb-3 pt-2">
           {(post.data?.likes.length || 0) > 0 && (
-            <div className="mt-1 cursor-pointer pl-3 text-xs text-zinc-300" onClick={() => setLikesMenu(true)}>
+            <div className="mt-1 cursor-pointer pl-4 text-xs text-zinc-300" onClick={() => setLikesMenu(true)}>
               {(post.data?.likes.length || 0) > 0 && post.data?.likes.length + " " + ((post.data?.likes.length || 0) > 1 ? "likes" : "like")}
             </div>
           )}
@@ -139,7 +138,7 @@ const Post = () => {
           {status === "unauthenticated" && <UnAuthedReminder />}
           <div className={"flex h-screen select-none flex-col items-center justify-center bg-zinc-700"}>
             {deleteMenu && <OptionMenu buttonPositive="Delete" buttonNegative="Cancel" description="Do you want to delete this post?" title="Delete post?" onClickPositive={() => deletePost.mutate({ id: post.data?.id || "" })} onClickNegative={() => setDeleteMenu(false)} />}
-            {likesMenu && <ListOfUsers users={post.data?.likes} onClickNegative={() => setLikesMenu(false)} title="Likes" userHandle={data?.user?.data.handle} userID={data?.user?.data.id} pageID={"0"} />}
+            {likesMenu && <ListOfUsers users={post.data?.likes} onClickNegative={() => setLikesMenu(false)} title="Likes" />}
             <Header />
             <PostView />
             <Footer />
