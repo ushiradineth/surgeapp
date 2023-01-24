@@ -21,7 +21,7 @@ const NavBar = (props: { user: any }) => {
         <NavBarItem Icon={<HiOutlineMenu />} IconOnClick={<HiMenu />} onClickHandler={() => setSideBar(true)} active={sideBar} />
       </button>
       {sideBar && (
-        <div id="Sidebar-More-Items" className={"invisible fixed bottom-20 left-6 z-50 w-fit origin-bottom-left scale-95 transform flex-row items-center justify-center rounded-lg bg-black py-1 text-sm opacity-0 transition-all duration-300 group-focus-within:visible group-focus-within:scale-100 group-focus-within:opacity-100 "}>
+        <div id="Sidebar-More-Items" className={"invisible fixed bottom-20 left-6 z-50 w-fit origin-bottom scale-95 transform flex-row items-center justify-center rounded-lg bg-black py-1 text-sm opacity-0 transition-all duration-300 group-focus-within:visible group-focus-within:scale-100 group-focus-within:opacity-100 "}>
           <NavBarItem Icon={<AiOutlineHome />} IconOnClick={<AiFillHome />} active={router.pathname === "/"} key={"Home"} onClickHandler={() => router.push("/")} />
           <NavBarItem Icon={<RiAddBoxLine />} IconOnClick={<RiAddBoxFill />} active={router.pathname === "/create"} key={"Create"} onClickHandler={() => router.push("/create")} />
           <NavBarItem Icon={session?.user?.image} active={router.query.profile === props.user.data.handle} key={"Profile"} onClickHandler={() => router.push("/profile/" + props.user.data.handle)} />
