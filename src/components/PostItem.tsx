@@ -88,7 +88,7 @@ const PostItem = (props: { postID?: string; post?: any }) => {
               {(post.data?.likes.length || 0) > 0 && post.data?.likes.length + " " + ((post.data?.likes.length || 0) > 1 ? "likes" : "like")}
             </div>
           )}
-          <p className="pl-4 mt-1 font-mono text-xs text-zinc-300">{new Intl.DateTimeFormat("en-US", { month: "long" }).format(post.data?.createdAt.getMonth()).toUpperCase() + " " + post.data?.createdAt.getDate() + ", " + post.data?.createdAt.getFullYear()} </p>
+          <p className="mt-1 pl-4 font-mono text-xs text-zinc-300">{new Intl.DateTimeFormat("en-US", { month: "long" }).format(post.data?.createdAt.getMonth()).toUpperCase() + " " + post.data?.createdAt.getDate() + ", " + post.data?.createdAt.getFullYear()} </p>
         </div>
       </>
     );
@@ -115,7 +115,7 @@ const PostItem = (props: { postID?: string; post?: any }) => {
   const PostView = () => {
     return (
       <div className={"grid h-full w-full transform place-items-center bg-zinc-900 text-gray-300"}>
-        <div className="flex h-full max-h-[475px] w-full items-center justify-center transition-all duration-300">
+        <div className="flex h-full max-h-[225px] w-full items-center justify-center transition-all duration-300 md:max-h-[475px]">
           <BiChevronLeft onClick={() => imageIndex > 0 && setImageIndex(imageIndex - 1)} className={"fixed left-4 top-[50%] h-4 w-4 scale-150 rounded-full bg-zinc-600 object-contain " + (imageIndex > 0 ? " cursor-pointer hover:bg-white hover:text-zinc-600 " : " opacity-0 ")} />
           <BiChevronRight onClick={() => imageIndex < (post.data?.imageURLs.length || 0) - 1 && setImageIndex(imageIndex + 1)} className={"fixed top-[50%] right-4 h-4 w-4 scale-150 rounded-full bg-zinc-600 object-contain " + (imageIndex < (post.data?.imageURLs.length || 0) - 1 ? " cursor-pointer hover:bg-white hover:text-zinc-600 " : " opacity-0 ")} />
           <Image onDoubleClick={() => (likePost.isLoading || unlikePost.isLoading || post.isFetching ? {} : like ? unlikePost.mutate({ userid: data?.user?.data.id || "", postid: post.data?.id || "" }) : likePost.mutate({ userid: data?.user?.data.id || "", postOwnerid: post.data?.userId || "", postid: post.data?.id || "" }))} src={post.data?.imageURLs[imageIndex] || "/image-placeholder.png"} key="image" className="h-full w-full object-contain" height={1000} width={1000} alt={"images"} />
@@ -139,7 +139,7 @@ const PostItem = (props: { postID?: string; post?: any }) => {
         )}
         <main>
           {status === "unauthenticated" && <UnAuthedReminder />}
-          <div className={"flex h-[700px] w-[700px] select-none flex-col items-center justify-center00 " + (props.post ? " h-fit rounded-2xl my-4 border-2 border-zinc-600 " : " h-screen bg-zinc-700 ")}>
+          <div className={"flex h-[400px] w-[400px] select-none flex-col items-center justify-center md:h-[700px] md:w-[700px] " + (props.post ? " my-4 rounded-2xl border-2 border-zinc-600 md:h-fit " : " h-screen bg-zinc-700 ")}>
             {deleteMenu && <OptionMenu buttonPositive="Delete" buttonNegative="Cancel" description="Do you want to delete this post?" title="Delete post?" onClickPositive={() => deletePost.mutate({ id: post.data?.id || "" })} onClickNegative={() => setDeleteMenu(false)} />}
             {likesMenu && <ListOfUsers users={post.data?.likes} onClickNegative={() => setLikesMenu(false)} title="Likes" />}
             <Header />
