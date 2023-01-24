@@ -93,6 +93,7 @@ const PostItem = (props: { postID?: string; post?: any }) => {
               {(post.data?.likes.length || 0) > 0 && post.data?.likes.length + " " + ((post.data?.likes.length || 0) > 1 ? "likes" : "like")}
             </div>
           )}
+          <p className="mt-1 pl-4 font-mono text-xs text-zinc-300">{post.data?.caption} </p>
           <p className="mt-1 pl-4 font-mono text-xs text-zinc-300">{moment(post.data.createdAt).fromNow()} </p>
         </div>
       </>
@@ -106,6 +107,9 @@ const PostItem = (props: { postID?: string; post?: any }) => {
       </div>
     );
   };
+
+  console.log(post.data?.caption);
+  
 
   const Footer = () => {
     return (

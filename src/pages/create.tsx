@@ -27,7 +27,7 @@ const Create = () => {
 
   const SelectImage = () => {
     return (
-      <div className={"absolute top-1/2 left-1/2 z-30 h-[500px] w-[500px] -translate-x-1/2 -translate-y-1/2 transform rounded-2xl bg-zinc-900 text-gray-300 transition-all duration-700"}>
+      <div className={"absolute top-1/2 left-1/2 z-30 h-[500px] w-[500px] -translate-x-1/2 -translate-y-1/2 transform rounded-2xl bg-zinc-800 text-gray-300 transition-all duration-700"}>
         <div className="flex h-12 w-full items-center justify-center border-b-[1px] border-black font-semibold">Create new post</div>
         <div className="flex h-[93.7%] items-center justify-center">
           <div className="grid place-items-center gap-4">
@@ -69,7 +69,7 @@ const Create = () => {
 
   const Caption = () => {
     return (
-      <div className={"absolute top-1/2 left-1/2 z-30 h-fit min-h-[200px] w-[400px] -translate-x-1/2 -translate-y-1/2 transform rounded-2xl bg-zinc-900 text-gray-300"}>
+      <div className={"absolute top-1/2 left-1/2 z-30 h-fit min-h-[200px] w-[400px] -translate-x-1/2 -translate-y-1/2 transform rounded-2xl bg-zinc-800 text-gray-300"}>
         <div className="flex h-12 w-full items-center justify-center font-semibold">
           <div className="grid w-full grid-flow-col grid-cols-3 border-b-[2px] py-2">
             <div className="flex cursor-pointer items-center">
@@ -90,7 +90,7 @@ const Create = () => {
               <NextImage src={data?.user?.data.image || "/image-placeholder.png"} key="image" className="h-8 w-8 rounded-full" height={100} width={100} alt={"image"} />
               {data?.user?.data.handle}
             </div>
-            <textarea id="post-caption" placeholder="Write a caption..." maxLength={500} className={"min-h-24 mt-4 w-full rounded-xl p-2 focus:outline-none text-black"} />
+            <textarea id="post-caption" placeholder="Write a caption..." maxLength={50} className={"min-h-24 mt-4 w-full rounded-xl p-2 focus:outline-none text-black"} />
           </div>
         </div>
       </div>
@@ -104,7 +104,7 @@ const Create = () => {
         <meta name="description" content="SurgeApp by Ushira Dineth" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      <main className="h-screen w-screen bg-zinc-700">
+      <main className="h-screen w-screen bg-zinc-900">
         {discard && (
           <OptionMenu
             title="Discard post?"
