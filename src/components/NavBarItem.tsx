@@ -1,5 +1,4 @@
 import Image from "next/image";
-import { useContext } from "react";
 
 interface itemType {
   Icon: JSX.Element | string | null | undefined;
@@ -9,11 +8,9 @@ interface itemType {
 }
 
 const NavBarItem = (props: itemType) => {
-
   return (
-    <div className="group flex cursor-pointer items-center justify-start p-4 w-fit h-fit hover:rounded-full text-white hover:bg-zinc-900" onClick={props.onClickHandler}>
-      <div className="transition-all duration-200 scale-150 group-hover:scale-[1.6]">
-      {typeof props.Icon === "string" ? <Image height={24} width={24} className={"rounded-full scale-[1.5]" + (props.active && "border md:border-2 border-white ")} src={props.Icon} alt="Profile Picture" /> : props.active ? props.IconOnClick : props.Icon}</div>
+    <div className="group flex h-fit w-fit cursor-pointer items-center justify-start p-4 text-gray-300 hover:rounded-full hover:bg-zinc-900" onClick={props.onClickHandler}>
+      <div className="scale-150 transition-all duration-200 group-hover:scale-[1.6]">{typeof props.Icon === "string" ? <Image height={200} width={200} className={"scale-[1.5] rounded-full h-[18px] w-[18px] " + (props.active && " border border-gray-300 ")} src={props.Icon} alt="Profile Picture" priority /> : props.active ? props.IconOnClick : props.Icon}</div>
     </div>
   );
 };

@@ -3,7 +3,9 @@ import NavBarItem from "./NavBarItem";
 import { AiOutlineHome, AiFillHome } from "react-icons/ai";
 import { RiAddBoxLine, RiAddBoxFill } from "react-icons/ri";
 import { useRouter } from "next/router";
-import { useSession } from "next-auth/react";
+import { useSession, signOut } from "next-auth/react";
+import { env } from "../env/client.mjs";
+import { MdLogout } from "react-icons/md";
 
 const NavBar = (props: { create: boolean; setCreate: any; user: any }) => {
   const router = useRouter();
@@ -16,6 +18,7 @@ const NavBar = (props: { create: boolean; setCreate: any; user: any }) => {
       <NavBarItem Icon={<AiOutlineHome />} IconOnClick={<AiFillHome />} active={router.pathname === "/"} key={"Home"} onClickHandler={() => router.push("/")} />
       <NavBarItem Icon={<RiAddBoxLine />} IconOnClick={<RiAddBoxFill />} active={props.create} key={"Create"} onClickHandler={() => console.log("asd")} />
       <NavBarItem Icon={session?.user?.image} active={router.query.profile === props.user.data.handle && !props.create} key={"Profile"} onClickHandler={() => router.push("/profile/" + props.user.data.handle)} />
+      <NavBarItem Icon={<MdLogout />} IconOnClick={<MdLogout />} active={true} key={"Logout"} onClickHandler={() => signOut({ callbackUrl: env.NEXT_PUBLIC_NEXTAUTH_URL })} />
     </div>
   );
 };
