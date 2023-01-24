@@ -56,8 +56,8 @@ const Profile = () => {
               .reverse()
               .map((element, index) => (
                 <div key={index} className={"relative h-fit w-fit"}>
-                  {element.imageURLs.length > 1 && <IoMdAlbums className=" absolute right-[4%] top-[4%] h-[8%] w-[8%] max-w-[30px] rotate-180 shadow-sm" />}
-                  <Image src={element.imageURLs[0] || "/image-placeholder.png"} height={500} width={500} onClick={() => router.push("/post/" + element.id)} alt={element.id} key={index} className={"aspect-1 z-10 h-full max-h-[300px] w-full max-w-[300px] cursor-pointer bg-red-300 object-cover "}></Image>
+                  {element.imageURLs.length > 1 && <IoMdAlbums className="absolute right-[4%] top-[4%] h-[8%] w-[8%] max-w-[30px] rotate-180 shadow-sm" />}
+                  <Image src={element.imageURLs[0] || "/image-placeholder.png"} height={500} width={500} onClick={() => router.push("/post/" + element.id)} alt={element.id} key={index} className={"aspect-square z-10 h-full max-h-[300px] w-full max-w-[300px] cursor-pointer object-cover"}></Image>
                 </div>
               ))
           ) : (
