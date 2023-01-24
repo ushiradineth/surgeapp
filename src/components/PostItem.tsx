@@ -15,6 +15,7 @@ import { MdOutlineDeleteOutline } from "react-icons/md";
 import OptionMenu from "./OptionMenu";
 import ListOfUsers from "./ListOfUsers";
 import { UnAuthedReminder } from "./UnAuthedReminder";
+import moment from "moment";
 
 const PostItem = (props: { postID?: string; post?: any }) => {
   const [imageIndex, setImageIndex] = useState(0);
@@ -28,7 +29,7 @@ const PostItem = (props: { postID?: string; post?: any }) => {
 
   const query = api.post.getPost.useQuery({ id: props.postID || "0" }, { retry: false, refetchOnWindowFocus: false, enabled: Boolean(props.postID) });
 
-  const post = props.postID ? query : props.post;
+  const post = props.postID ? query : props.post;  
 
   const likePost = api.post.likePost.useMutation({
     onMutate: () => {
@@ -92,7 +93,7 @@ const PostItem = (props: { postID?: string; post?: any }) => {
               {(post.data?.likes.length || 0) > 0 && post.data?.likes.length + " " + ((post.data?.likes.length || 0) > 1 ? "likes" : "like")}
             </div>
           )}
-          <p className="mt-1 pl-4 font-mono text-xs text-zinc-300">{new Intl.DateTimeFormat("en-US", { month: "long" }).format(post.data?.createdAt.getMonth()).toUpperCase() + " " + post.data?.createdAt.getDate() + ", " + post.data?.createdAt.getFullYear()} </p>
+          <p className="mt-1 pl-4 font-mono text-xs text-zinc-300">{moment(post.data.createdAt).fromNow()} </p>
         </div>
       </>
     );
