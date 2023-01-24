@@ -77,8 +77,9 @@ const Profile = () => {
   };
 
   if(page?.isError) return <Error error="User not found" />
+  if(page?.isLoading) return <Spinner />;
 
-  if (page?.data) {
+  if (page?.isSuccess) {
     return (
       <>
         <Head>
