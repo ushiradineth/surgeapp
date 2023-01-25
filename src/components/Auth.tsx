@@ -1,38 +1,24 @@
-import React, { useState, useEffect, createRef } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { AiFillGithub, AiFillGoogleCircle } from "react-icons/ai";
 import { signIn } from "next-auth/react";
 import { env } from "../env/client.mjs";
 import Head from "next/head.js";
-import HCaptcha from "@hcaptcha/react-hcaptcha";
 import { api } from "../utils/api";
 import { useRouter } from "next/router";
 import { z } from "zod";
+import HCaptcha from "@hcaptcha/react-hcaptcha";
 
 const Auth = () => {
   const [loginMenu, setLoginMenu] = useState(true);
   const [errorState, setErrorState] = useState("");
   const createUser = api.user.createUser.useMutation({ onError: (err) => setErrorState(err.message) });
   const router = useRouter();
-  const hcaptchaRef = createRef();
+  const [isVerified, setisVerified] = useState(false);
+  const captchaRef = React.useRef(null);
 
   useEffect(() => {
-    if(errorState !== "") setErrorState("")
-  }, [loginMenu])
-  
-
-  // const handleSubmit = (event) => {
-  //   event.preventDefault();
-  //   hcaptchaRef.current.execute();
-  // };
-
-  // const onReCAPTCHAChange = (captchaCode) => {
-  //   if(!captchaCode) {
-  //     return;
-  //   }
-
-  //   alert(`Hey, ${email}`);
-  //   hcaptchaRef.current.reset();
-  // }
+    if (errorState !== "") setErrorState("");
+  }, [loginMenu]);
 
   const inputStyling = "shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 mb-1 leading-tight focus:outline-none focus:shadow-outline";
 
@@ -40,7 +26,7 @@ const Auth = () => {
     const [formData, setFormData] = useState<{ email: string; password: string }>({ email: "", password: "" });
     const [emailValidation, setEmailValidation] = useState(false);
     const [passwordValidation, setPasswordValidation] = useState(false);
-    
+
     const { email, password } = formData;
 
     const onChange = (e: { target: { name: any; value: any } }) => {
@@ -69,15 +55,15 @@ const Auth = () => {
     const onSubmit = async (e: { preventDefault: () => void }) => {
       e.preventDefault();
       const loginQuery = await signIn("credentials", { email, password, redirect: false });
-      loginQuery?.error && setErrorState("Invalid Credentials")
+      loginQuery?.error && setErrorState("Invalid Credentials");
     };
 
     return (
       <form className="mt-3 grid gap-3 pt-3 text-center md:w-auto lg:w-auto" onSubmit={onSubmit}>
         <input type="email" name="email" id="email" placeholder="Email" className={inputStyling} onChange={onChange} />
         <input type="password" name="password" id="password" placeholder="Password" minLength={8} maxLength={20} className={inputStyling} onChange={onChange} />
-        <p className="text-red-400 font-semibold">{errorState}</p>
-        <button type="submit" disabled={!emailValidation || !passwordValidation} className="focus:shadow-outline w-full rounded bg-blue-500 py-3 px-3 font-bold text-white focus:outline-none disabled:cursor-not-allowed disabled:bg-blue-300">
+        <HCaptcha ref={captchaRef} sitekey={env.NEXT_PUBLIC_HCAPTCHA_SITE_KEY} onVerify={() => setisVerified(true)} />
+        <button type="submit" disabled={!emailValidation || !passwordValidation || !isVerified} className="focus:shadow-outline w-full rounded bg-blue-500 py-3 px-3 font-bold text-white focus:outline-none disabled:cursor-not-allowed disabled:bg-blue-300">
           Login
         </button>
       </form>
@@ -131,15 +117,10 @@ const Auth = () => {
         <input type="text" name="name" id="name" placeholder="Name" minLength={1} maxLength={100} className={inputStyling} onChange={onChange} />
         <input type="email" name="email" id="email" placeholder="Email" className={inputStyling} onChange={onChange} />
         <input type="password" name="password" id="password" placeholder="Password" minLength={8} maxLength={20} className={inputStyling} onChange={onChange} />
-        <p className="text-red-400 font-semibold">{errorState}</p>
+        <p className="font-semibold text-red-400">{errorState}</p>
         <button type="submit" disabled={!emailValidation || !nameValidation} className="focus:shadow-outline w-full rounded bg-blue-500 py-3 px-3 font-bold text-white focus:outline-none disabled:cursor-not-allowed disabled:bg-blue-300">
           Register
         </button>
-        {/* <form onSubmit={handleSubmit}>
-            <HCaptcha id="test" size="invisible" ref={hcaptchaRef} sitekey={process.env.NEXT_PUBLIC_HCAPTCHA_SITE_KEY} onVerify={onHCaptchaChange} />
-            <input onChange={handleChange} required type="email" name="email" placeholder="Email" />
-            <button type="submit">Register</button>
-          </form> */}
       </form>
     );
   };
@@ -160,14 +141,14 @@ const Auth = () => {
         <div className="row-span-6 grid place-items-center lg:col-span-8 lg:col-start-1 lg:row-span-2">
           <div className="flex h-fit w-fit flex-col items-center justify-center rounded-lg bg-white">
             <div className="flex h-12 w-full select-none items-center justify-center font-semibold text-black">
-              <div className={"flex h-12 w-[50%] items-center justify-center cursor-pointer " + (!loginMenu && " rounded-br-md rounded-tl-md border-b border-r bg-gray-100 ")} onClick={() => setLoginMenu(true)}>
+              <div className={"flex h-12 w-[50%] cursor-pointer items-center justify-center " + (!loginMenu && " rounded-br-md rounded-tl-md border-b border-r bg-gray-100 ")} onClick={() => setLoginMenu(true)}>
                 Login
               </div>
-              <div className={"flex h-12 w-[50%] items-center justify-center cursor-pointer " + (loginMenu && " rounded-bl-md rounded-tr-md border-b border-l bg-gray-100 ")} onClick={() => setLoginMenu(false)}>
+              <div className={"flex h-12 w-[50%] cursor-pointer items-center justify-center " + (loginMenu && " rounded-bl-md rounded-tr-md border-b border-l bg-gray-100 ")} onClick={() => setLoginMenu(false)}>
                 Register
               </div>
             </div>
-            <section className="w-80 rounded px-6 pb-6 pt-2 shadow-md">
+            <section className="w-[350px] rounded px-6 pb-6 pt-2 shadow-md">
               {loginMenu ? <LoginMenu /> : <RegisterMenu />}
               <div className="relative flex items-center py-5">
                 <div className="flex-grow border-t border-gray-400"></div>

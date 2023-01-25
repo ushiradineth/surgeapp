@@ -19,7 +19,6 @@ export const serverSchema = z.object({
     ),
     GITHUB_CLIENT_ID: z.string(),
     GITHUB_CLIENT_SECRET: z.string(),
-    RECAPTCHA_SECRET_KEY: z.string()
 });
 
 /**
@@ -34,7 +33,6 @@ export const serverEnv = {
     NEXTAUTH_URL: process.env.NEXTAUTH_URL,
     GITHUB_CLIENT_ID: process.env.GITHUB_CLIENT_ID,
     GITHUB_CLIENT_SECRET: process.env.GITHUB_CLIENT_SECRET,
-    RECAPTCHA_SECRET_KEY: process.env.RECAPTCHA_SECRET_KEY
 };
 
 /**
@@ -50,7 +48,7 @@ export const clientSchema = z.object({
     NEXT_PUBLIC_SUPABASE_URL: z.string(),
     NEXT_PUBLIC_SUPABASE_PUBLIC_ANON_KEY: z.string(),
     NEXT_PUBLIC_SUPABASE_IMAGE_URL: z.string(),
-    NEXT_PUBLIC_RECAPTCHA_SITE_KEY: z.string()
+    NEXT_PUBLIC_HCAPTCHA_SITE_KEY: z.string()
 });
 
 /**
@@ -64,5 +62,5 @@ export const clientEnv = {
     NEXT_PUBLIC_SUPABASE_URL: process.env.NEXT_PUBLIC_SUPABASE_URL,
     NEXT_PUBLIC_SUPABASE_PUBLIC_ANON_KEY: process.env.NEXT_PUBLIC_SUPABASE_PUBLIC_ANON_KEY,
     NEXT_PUBLIC_SUPABASE_IMAGE_URL: process.env.NEXT_PUBLIC_SUPABASE_IMAGE_URL,
-    NEXT_PUBLIC_RECAPTCHA_SITE_KEY: process.env.NEXT_PUBLIC_RECAPTCHA_SITE_KEY
+    NEXT_PUBLIC_HCAPTCHA_SITE_KEY: process.env.NEXT_PUBLIC_HCAPTCHA_SITE_KEY
 };
