@@ -23,7 +23,7 @@ const Profile = () => {
   const UserDetails = () => {
     return (
       <div className="flex h-fit w-[400px] items-center justify-center pb-7 md:w-[500px] lg:w-[700px]">
-        <Image className="mr-2 ml-2 mt-4 h-24 w-24 rounded-full md:mr-10 md:flex md:w-24 md:scale-125 md:justify-center" src={session?.user?.image || ""} height={96} width={96} alt="Profile Picture" priority />
+        <Image className="mr-2 ml-2 mt-4 h-24 w-24 rounded-full md:mr-10 md:flex md:w-24 md:scale-125 md:justify-center" src={data?.user?.data.image || ""} height={96} width={96} alt="Profile Picture" priority />
         <div id="headline" className="mb-4 mt-6 ml-4 grid grid-flow-row md:h-fit md:gap-3">
           <div id="user-info">
             <div className="flex items-center gap-3">
