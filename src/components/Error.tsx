@@ -4,7 +4,7 @@ const Error = (props: { error: string }) => {
   return (
     <>
       <Head>
-        <title>Error • Clonegram</title>
+        <title>Error • SurgeApp</title>
         <meta name="description" content="SurgeApp by Ushira Dineth" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
