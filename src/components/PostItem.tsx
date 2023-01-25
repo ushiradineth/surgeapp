@@ -120,7 +120,7 @@ const PostItem = (props: { postID?: string; post?: any }) => {
 
   const PostView = () => {
     return (
-      <div className={"grid h-full w-full transform place-items-center bg-zinc-900 text-gray-300"}>
+      <div className={"grid h-full w-full transform place-items-center bg-zinc-900 text-gray-300 transition-all duration-300"}>
         <div className="flex h-full max-h-[200px] w-full items-center justify-center transition-all duration-300 md:max-h-[475px]">
           <BiChevronLeft onClick={() => imageIndex > 0 && setImageIndex(imageIndex - 1)} className={"fixed left-4 top-[50%] h-4 w-4 scale-150 rounded-full bg-zinc-600 object-contain " + (imageIndex > 0 ? " cursor-pointer hover:bg-white hover:text-zinc-600 " : " opacity-0 ")} />
           <BiChevronRight onClick={() => imageIndex < (post.data?.imageURLs.length || 0) - 1 && setImageIndex(imageIndex + 1)} className={"fixed top-[50%] right-4 h-4 w-4 scale-150 rounded-full bg-zinc-600 object-contain " + (imageIndex < (post.data?.imageURLs.length || 0) - 1 ? " cursor-pointer hover:bg-white hover:text-zinc-600 " : " opacity-0 ")} />
@@ -145,7 +145,7 @@ const PostItem = (props: { postID?: string; post?: any }) => {
         )}
         <main>
           {status === "unauthenticated" && <UnAuthedReminder />}
-          <div className={"flex h-[400px] w-[400px] select-none flex-col items-center justify-center md:h-[700px] md:w-[700px] " + (props.post ? " my-4 rounded-2xl border-2 border-zinc-600 md:h-fit " : " h-screen bg-zinc-700 ")}>
+          <div className={"flex h-[400px] w-[400px] select-none flex-col items-center justify-center md:h-[700px] md:w-[700px]  transition-all duration-300 " + (props.post ? " my-4 rounded-2xl border-2 border-zinc-600 md:h-fit " : " h-screen bg-zinc-700 ")}>
             {deleteMenu && <OptionMenu buttonPositive="Delete" buttonNegative="Cancel" description="Do you want to delete this post?" title="Delete post?" onClickPositive={() => deletePost.mutate({ id: post.data?.id || "" })} onClickNegative={() => setDeleteMenu(false)} />}
             {likesMenu && <ListOfUsers users={post.data?.likes} onClickNegative={() => setLikesMenu(false)} title="Likes" />}
             <Header />
