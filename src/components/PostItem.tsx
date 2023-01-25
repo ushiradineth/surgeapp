@@ -52,7 +52,7 @@ const PostItem = (props: { postID?: string; post?: any }) => {
 
   const deletePost = api.post.deletePost.useMutation({
     onSuccess: () => {
-      router.push("/");
+      router.pathname === "/" ? location.reload() : router.push("/");
       data?.user?.refetch;
     },
   });
@@ -87,12 +87,12 @@ const PostItem = (props: { postID?: string; post?: any }) => {
         </div>
         <div className="pb-2">
           {(post.data?.likes.length || 0) > 0 && (
-            <div className="mt-1 cursor-pointer pl-4 text-xs text-zinc-300 uppercase" onClick={() => setLikesMenu(true)}>
+            <div className="mt-1 cursor-pointer pl-4 text-xs uppercase text-zinc-300" onClick={() => setLikesMenu(true)}>
               {(post.data?.likes.length || 0) > 0 && post.data?.likes.length + " " + ((post.data?.likes.length || 0) > 1 ? "likes" : "like")}
             </div>
           )}
-          {post.data.caption && <p className="mt-1 truncate pl-4 text-xs font-semibold text-zinc-300">{post.data?.caption}</p>}
-          <p className="mt-1 pl-4 font-mono text-xs text-zinc-300 uppercase">{moment(post.data.createdAt).fromNow()} </p>
+          {post.data.caption ? <p className="mt-1 truncate pl-4 text-xs font-semibold text-zinc-300">{post.data?.caption}</p> : <></>}
+          <p className="mt-1 pl-4 font-mono text-xs uppercase text-zinc-300">{moment(post.data.createdAt).fromNow()} </p>
         </div>
       </>
     );
@@ -128,10 +128,10 @@ const PostItem = (props: { postID?: string; post?: any }) => {
     );
   };
 
-  if (post.isError) return <Error error="Post not found" />;
+  if (post.isError && !post.data) return <Error error="Post not found" />;
   if (post.isLoading) return <Spinner removeBackground={true} />;
 
-  if (post.isSuccess) {
+  if (post.isSuccess && post.data) {
     return (
       <>
         {props.postID && (
@@ -143,8 +143,8 @@ const PostItem = (props: { postID?: string; post?: any }) => {
         )}
         <main>
           {status === "unauthenticated" && <UnAuthedReminder />}
-          <div className={"flex h-[400px] w-[400px] select-none flex-col items-center justify-center md:h-[700px] md:w-[700px]  transition-all duration-300 " + (props.post ? " my-4 rounded-2xl border-2 border-zinc-600 md:h-fit " : " h-screen bg-zinc-700 ")}>
-            {deleteMenu && <OptionMenu buttonPositive="Delete" buttonNegative="Cancel" description="Do you want to delete this post?" title="Delete post?" onClickPositive={() => deletePost.mutate({ id: post.data?.id || "" })} onClickNegative={() => setDeleteMenu(false)} />}
+          <div className={"flex h-[400px] w-[400px] select-none flex-col items-center justify-center transition-all duration-300  md:h-[700px] md:w-[700px] " + (props.post ? " my-4 rounded-2xl border-2 border-zinc-600 md:h-fit " : " h-screen bg-zinc-700 ")}>
+            {deleteMenu && <OptionMenu buttonPositive={deletePost.isLoading ? <Spinner SpinnerOnly={true} fill={"fill-red-500"} /> : "Delete"} buttonNegative="Cancel" description="Do you want to delete this post?" title="Delete post?" onClickPositive={() => deletePost.mutate({ id: post.data?.id || "", index: post.data?.index })} onClickNegative={() => setDeleteMenu(false)} />}
             {likesMenu && <ListOfUsers users={post.data?.likes} onClickNegative={() => setLikesMenu(false)} title="Likes" />}
             <Header />
             <PostView />

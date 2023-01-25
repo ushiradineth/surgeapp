@@ -1,4 +1,6 @@
+import { createClient } from "@supabase/supabase-js";
 import { z } from "zod";
+import { env } from "../../../env/client.mjs";
 import { createTRPCRouter, publicProcedure, protectedProcedure } from "../trpc";
 
 export const postRouter = createTRPCRouter({
@@ -11,13 +13,14 @@ export const postRouter = createTRPCRouter({
       orderBy: [
         {
           likes: {
-            _count: "desc"
-          }
-        },{
+            _count: "desc",
+          },
+        },
+        {
           createdAt: "desc",
         },
       ],
-      take: 10
+      take: 10,
     });
   }),
 
@@ -33,9 +36,10 @@ export const postRouter = createTRPCRouter({
     });
   }),
 
-  setPost: protectedProcedure.input(z.object({ id: z.string(), links: z.array(z.string()), caption: z.string().nullish() })).mutation(({ input, ctx }) => {
+  setPost: protectedProcedure.input(z.object({ index: z.number(), id: z.string(), links: z.array(z.string()), caption: z.string().nullish() })).mutation(({ input, ctx }) => {
     return ctx.prisma.post.create({
       data: {
+        index: input.index,
         user: { connect: { id: input.id } },
         caption: input.caption || "",
         imageURLs: input.links,
@@ -43,7 +47,12 @@ export const postRouter = createTRPCRouter({
     });
   }),
 
-  deletePost: protectedProcedure.input(z.object({ id: z.string() })).mutation(({ input, ctx }) => {
+  deletePost: protectedProcedure.input(z.object({ id: z.string(), index: z.number() })).mutation(async ({ input, ctx }) => {
+    const supabase = createClient("https://" + env.NEXT_PUBLIC_SUPABASE_URL, env.NEXT_PUBLIC_SUPABASE_PUBLIC_ANON_KEY);
+    const {data, error} = await supabase.storage.from("surgeapp").remove([`Users/${input.id}/Posts/${input.index}`]);
+   
+    console.log(data, error);
+    
     return ctx.prisma.post.delete({
       where: { id: input.id },
     });
