@@ -64,10 +64,10 @@ const Profile = () => {
             <div className="min-w-screen col-span-3 mt-8 flex w-full flex-col items-center">
               <>
                 <div className="w-screen"></div>
-                <div className="mb-4 mt-8 grid h-32 w-32 place-items-center rounded-full border-2">
+                <div className="mb-4 mt-8 grid h-32 w-32 place-items-center rounded-full border-4">
                   <FiCamera className="scale-x-[-5] scale-y-[5] transform" />
                 </div>
-                <div className="text-xl">No posts yet</div>
+                <div className="text-xl font-semibold">No posts yet</div>
               </>
             </div>
           )}
