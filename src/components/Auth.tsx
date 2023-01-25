@@ -1,10 +1,9 @@
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState, useEffect } from "react";
 import { AiFillGithub, AiFillGoogleCircle } from "react-icons/ai";
 import { signIn } from "next-auth/react";
 import { env } from "../env/client.mjs";
 import Head from "next/head.js";
 import { api } from "../utils/api";
-import { useRouter } from "next/router";
 import { z } from "zod";
 import HCaptcha from "@hcaptcha/react-hcaptcha";
 
@@ -12,7 +11,6 @@ const Auth = () => {
   const [loginMenu, setLoginMenu] = useState(true);
   const [errorState, setErrorState] = useState("");
   const createUser = api.user.createUser.useMutation({ onError: (err) => setErrorState(err.message) });
-  const router = useRouter();
   const [isVerified, setisVerified] = useState(false);
   const captchaRef = React.useRef(null);
 
@@ -39,7 +37,7 @@ const Auth = () => {
       }
 
       if (e.target.name === "password") {
-        const bState = /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#\$%\^&\*])(?=.{8,20})/.test(e.target.value);
+        const bState = /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#\$%\^&\*])(?=.{8,20})/.test(e.target.value as string);
 
         if (passwordValidation !== bState) {
           setPasswordValidation(bState);
