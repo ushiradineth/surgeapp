@@ -1,6 +1,6 @@
-import React from "react";
+import React, { useState, useEffect, createRef } from "react";
 import { AiFillGithub, AiFillGoogleCircle } from "react-icons/ai";
-import { signIn, useSession } from "next-auth/react";
+import { signIn } from "next-auth/react";
 import { env } from "../env/client.mjs";
 import Head from "next/head.js";
 import HCaptcha from "@hcaptcha/react-hcaptcha";
@@ -9,15 +9,15 @@ import { useRouter } from "next/router";
 import { z } from "zod";
 
 const Auth = () => {
-  const [signInMenu, setSignInMenu] = React.useState(true);
-  const [errorState, setErrorState] = React.useState("");
+  const [loginMenu, setLoginMenu] = useState(true);
+  const [errorState, setErrorState] = useState("");
   const createUser = api.user.createUser.useMutation({ onError: (err) => setErrorState(err.message) });
   const router = useRouter();
-  const hcaptchaRef = React.createRef();
+  const hcaptchaRef = createRef();
 
-  React.useEffect(() => {
+  useEffect(() => {
     if(errorState !== "") setErrorState("")
-  }, [signInMenu])
+  }, [loginMenu])
   
 
   // const handleSubmit = (event) => {
@@ -36,10 +36,10 @@ const Auth = () => {
 
   const inputStyling = "shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 mb-1 leading-tight focus:outline-none focus:shadow-outline";
 
-  const SignInMenu = () => {
-    const [formData, setFormData] = React.useState<{ email: string; password: string }>({ email: "", password: "" });
-    const [emailValidation, setEmailValidation] = React.useState(false);
-    const [passwordValidation, setPasswordValidation] = React.useState(false);
+  const LoginMenu = () => {
+    const [formData, setFormData] = useState<{ email: string; password: string }>({ email: "", password: "" });
+    const [emailValidation, setEmailValidation] = useState(false);
+    const [passwordValidation, setPasswordValidation] = useState(false);
     
     const { email, password } = formData;
 
@@ -68,8 +68,8 @@ const Auth = () => {
 
     const onSubmit = async (e: { preventDefault: () => void }) => {
       e.preventDefault();
-      const signin = await signIn("credentials", { email, password, redirect: false });
-      signin?.error && setErrorState("Invalid Credentials")
+      const loginQuery = await signIn("credentials", { email, password, redirect: false });
+      loginQuery?.error && setErrorState("Invalid Credentials")
     };
 
     return (
@@ -78,17 +78,17 @@ const Auth = () => {
         <input type="password" name="password" id="password" placeholder="Password" minLength={8} maxLength={20} className={inputStyling} onChange={onChange} />
         <p className="text-red-400 font-semibold">{errorState}</p>
         <button type="submit" disabled={!emailValidation || !passwordValidation} className="focus:shadow-outline w-full rounded bg-blue-500 py-3 px-3 font-bold text-white focus:outline-none disabled:cursor-not-allowed disabled:bg-blue-300">
-          Sign In
+          Login
         </button>
       </form>
     );
   };
 
   const RegisterMenu = () => {
-    const [formData, setFormData] = React.useState<{ name: string; email: string; password: string }>({ name: "", email: "", password: "" });
-    const [emailValidation, setEmailValidation] = React.useState(false);
-    const [passwordValidation, setPasswordValidation] = React.useState(false);
-    const [nameValidation, setNameValidation] = React.useState(false);
+    const [formData, setFormData] = useState<{ name: string; email: string; password: string }>({ name: "", email: "", password: "" });
+    const [emailValidation, setEmailValidation] = useState(false);
+    const [passwordValidation, setPasswordValidation] = useState(false);
+    const [nameValidation, setNameValidation] = useState(false);
 
     const onChange = (e: { target: { name: any; value: any } }) => {
       if (e.target.name === "email") {
@@ -147,7 +147,7 @@ const Auth = () => {
   return (
     <>
       <Head>
-        <title>{signInMenu ? "Sign in to SurgeApp!" : "Register to SurgeApp!"}</title>
+        <title>{loginMenu ? "Login to SurgeApp!" : "Register to SurgeApp!"}</title>
         <meta name="description" content="SurgeApp by Ushira Dineth" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
@@ -160,15 +160,15 @@ const Auth = () => {
         <div className="row-span-6 grid place-items-center lg:col-span-8 lg:col-start-1 lg:row-span-2">
           <div className="flex h-fit w-fit flex-col items-center justify-center rounded-lg bg-white">
             <div className="flex h-12 w-full select-none items-center justify-center font-semibold text-black">
-              <div className={"flex h-12 w-[50%] items-center justify-center cursor-pointer " + (!signInMenu && " rounded-br-md rounded-tl-md border-b border-r bg-gray-100 ")} onClick={() => setSignInMenu(true)}>
-                Sign in
+              <div className={"flex h-12 w-[50%] items-center justify-center cursor-pointer " + (!loginMenu && " rounded-br-md rounded-tl-md border-b border-r bg-gray-100 ")} onClick={() => setLoginMenu(true)}>
+                Login
               </div>
-              <div className={"flex h-12 w-[50%] items-center justify-center cursor-pointer " + (signInMenu && " rounded-bl-md rounded-tr-md border-b border-l bg-gray-100 ")} onClick={() => setSignInMenu(false)}>
+              <div className={"flex h-12 w-[50%] items-center justify-center cursor-pointer " + (loginMenu && " rounded-bl-md rounded-tr-md border-b border-l bg-gray-100 ")} onClick={() => setLoginMenu(false)}>
                 Register
               </div>
             </div>
             <section className="w-80 rounded px-6 pb-6 pt-2 shadow-md">
-              {signInMenu ? <SignInMenu /> : <RegisterMenu />}
+              {loginMenu ? <LoginMenu /> : <RegisterMenu />}
               <div className="relative flex items-center py-5">
                 <div className="flex-grow border-t border-gray-400"></div>
                 <span className="mx-4 flex-shrink select-none text-gray-400">OR</span>
