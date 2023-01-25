@@ -6,9 +6,12 @@ import { DataContext } from "../pages/_app";
 import { useContext } from "react";
 import PostItem from "./PostItem";
 import Head from "next/head";
+import Spinner from "./Spinner";
 
 const Home = () => {
   const posts = api.post.getAllPosts.useQuery(undefined, { retry: false, refetchOnWindowFocus: false });
+
+  if (posts.isLoading) return <Spinner removeBackground={true} />;
 
   return (
     <>

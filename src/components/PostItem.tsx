@@ -89,12 +89,12 @@ const PostItem = (props: { postID?: string; post?: any }) => {
         </div>
         <div className="pb-2">
           {(post.data?.likes.length || 0) > 0 && (
-            <div className="mt-1 cursor-pointer pl-4 text-xs text-zinc-300" onClick={() => setLikesMenu(true)}>
+            <div className="mt-1 cursor-pointer pl-4 text-xs text-zinc-300 uppercase" onClick={() => setLikesMenu(true)}>
               {(post.data?.likes.length || 0) > 0 && post.data?.likes.length + " " + ((post.data?.likes.length || 0) > 1 ? "likes" : "like")}
             </div>
           )}
           {post.data.caption && <p className="mt-1 truncate pl-4 text-xs font-semibold text-zinc-300">{post.data?.caption}</p>}
-          <p className="mt-1 pl-4 font-mono text-xs text-zinc-300">{moment(post.data.createdAt).fromNow()} </p>
+          <p className="mt-1 pl-4 font-mono text-xs text-zinc-300 uppercase">{moment(post.data.createdAt).fromNow()} </p>
         </div>
       </>
     );
@@ -121,7 +121,7 @@ const PostItem = (props: { postID?: string; post?: any }) => {
   const PostView = () => {
     return (
       <div className={"grid h-full w-full transform place-items-center bg-zinc-900 text-gray-300"}>
-        <div className="flex h-full max-h-[225px] w-full items-center justify-center transition-all duration-300 md:max-h-[475px]">
+        <div className="flex h-full max-h-[200px] w-full items-center justify-center transition-all duration-300 md:max-h-[475px]">
           <BiChevronLeft onClick={() => imageIndex > 0 && setImageIndex(imageIndex - 1)} className={"fixed left-4 top-[50%] h-4 w-4 scale-150 rounded-full bg-zinc-600 object-contain " + (imageIndex > 0 ? " cursor-pointer hover:bg-white hover:text-zinc-600 " : " opacity-0 ")} />
           <BiChevronRight onClick={() => imageIndex < (post.data?.imageURLs.length || 0) - 1 && setImageIndex(imageIndex + 1)} className={"fixed top-[50%] right-4 h-4 w-4 scale-150 rounded-full bg-zinc-600 object-contain " + (imageIndex < (post.data?.imageURLs.length || 0) - 1 ? " cursor-pointer hover:bg-white hover:text-zinc-600 " : " opacity-0 ")} />
           <Image onDoubleClick={() => (likePost.isLoading || unlikePost.isLoading || post.isFetching ? {} : like ? unlikePost.mutate({ userid: data?.user?.data.id || "", postid: post.data?.id || "" }) : likePost.mutate({ userid: data?.user?.data.id || "", postOwnerid: post.data?.userId || "", postid: post.data?.id || "" }))} src={post.data?.imageURLs[imageIndex] || "/image-placeholder.png"} key="image" className="h-full w-full object-contain" height={1000} width={1000} alt={"images"} />
