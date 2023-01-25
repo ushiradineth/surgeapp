@@ -116,7 +116,7 @@ const Auth = () => {
         <input type="email" name="email" id="email" placeholder="Email" className={inputStyling} onChange={onChange} />
         <input type="password" name="password" id="password" placeholder="Password" minLength={8} maxLength={20} className={inputStyling} onChange={onChange} />
         <p className="font-semibold text-red-400">{errorState}</p>
-        <button type="submit" disabled={!emailValidation || !nameValidation} className="focus:shadow-outline w-full rounded bg-blue-500 py-3 px-3 font-bold text-white focus:outline-none disabled:cursor-not-allowed disabled:bg-blue-300">
+        <button type="submit" disabled={!emailValidation || !nameValidation || !passwordValidation} className="focus:shadow-outline w-full rounded bg-blue-500 py-3 px-3 font-bold text-white focus:outline-none disabled:cursor-not-allowed disabled:bg-blue-300">
           Register
         </button>
       </form>
