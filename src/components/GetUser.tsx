@@ -1,4 +1,4 @@
-import { useSession } from "next-auth/react";
+import { signOut, useSession } from "next-auth/react";
 import { useEffect } from "react";
 import { api } from "../utils/api";
 import Spinner from "./Spinner";
@@ -13,7 +13,7 @@ interface itemType {
 
 const GetUser = (props: itemType) => {
   const { data: session, status } = useSession();
-  const user = api.user.getUserById.useQuery({ id: session?.user?.id || "" }, { enabled: status === "authenticated" && props.enabled, retry: false, refetchOnWindowFocus: false });
+  const user = api.user.getUserById.useQuery({ id: session?.user?.id || "" }, { enabled: status === "authenticated" && props.enabled, retry: false, refetchOnWindowFocus: false , onError: () => signOut()});
 
   useEffect(() => {
     if (user.isSuccess && props.user !== user) props.setUser(user);
