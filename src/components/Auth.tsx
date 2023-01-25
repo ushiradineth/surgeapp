@@ -126,7 +126,7 @@ const Auth = () => {
   return (
     <>
       <Head>
-        <title>{loginMenu ? "Login to SurgeApp!" : "Register to SurgeApp!"}</title>
+        <title>{loginMenu ? "Login to SurgeApp" : "Register to SurgeApp"}</title>
         <meta name="description" content="SurgeApp by Ushira Dineth" />
         <link rel="icon" href="/favicon.ico" />
       </Head>

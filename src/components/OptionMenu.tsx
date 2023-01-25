@@ -1,6 +1,3 @@
-import { useContext } from "react";
-import { DataContext } from "../pages/_app";
-
 interface itemType {
   title: string;
   description: string;
@@ -11,7 +8,6 @@ interface itemType {
 }
 
 const OptionMenu = (props: itemType) => {
-  const data = useContext(DataContext);
 
   return (
     <div className="fixed top-0 left-0 z-50 h-screen w-screen bg-zinc-900 text-gray-300 bg-opacity-30">

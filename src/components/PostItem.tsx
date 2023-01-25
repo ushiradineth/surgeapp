@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { DataContext } from "../pages/_app";
 import { useContext } from "react";
 import Head from "next/head";
@@ -22,13 +22,11 @@ const PostItem = (props: { postID?: string; post?: any }) => {
   const [like, setLike] = useState<boolean | null>(null);
   const [deleteMenu, setDeleteMenu] = useState(false);
   const [likesMenu, setLikesMenu] = useState(false);
-
   const router = useRouter();
   const { status } = useSession();
   const data = useContext(DataContext);
 
   const query = api.post.getPost.useQuery({ id: props.postID || "0" }, { retry: false, refetchOnWindowFocus: false, enabled: Boolean(props.postID) });
-
   const post = props.postID ? query : props.post;
 
   const likePost = api.post.likePost.useMutation({
@@ -59,7 +57,7 @@ const PostItem = (props: { postID?: string; post?: any }) => {
     },
   });
 
-  React.useEffect(() => {
+  useEffect(() => {
     post.isSuccess && setLike(Boolean(post?.data.likes.find((e: { id: string | undefined }) => e.id === data?.user?.data.id)));
   }, [post.isSuccess]);
 
@@ -124,7 +122,7 @@ const PostItem = (props: { postID?: string; post?: any }) => {
         <div className="flex h-full max-h-[200px] w-full items-center justify-center transition-all duration-300 md:max-h-[475px]">
           <BiChevronLeft onClick={() => imageIndex > 0 && setImageIndex(imageIndex - 1)} className={"fixed left-4 top-[50%] h-4 w-4 scale-150 rounded-full bg-zinc-600 object-contain " + (imageIndex > 0 ? " cursor-pointer hover:bg-white hover:text-zinc-600 " : " opacity-0 ")} />
           <BiChevronRight onClick={() => imageIndex < (post.data?.imageURLs.length || 0) - 1 && setImageIndex(imageIndex + 1)} className={"fixed top-[50%] right-4 h-4 w-4 scale-150 rounded-full bg-zinc-600 object-contain " + (imageIndex < (post.data?.imageURLs.length || 0) - 1 ? " cursor-pointer hover:bg-white hover:text-zinc-600 " : " opacity-0 ")} />
-          <Image onDoubleClick={() => (likePost.isLoading || unlikePost.isLoading || post.isFetching ? {} : like ? unlikePost.mutate({ userid: data?.user?.data.id || "", postid: post.data?.id || "" }) : likePost.mutate({ userid: data?.user?.data.id || "", postOwnerid: post.data?.userId || "", postid: post.data?.id || "" }))} src={post.data?.imageURLs[imageIndex] || "/image-placeholder.png"} key="image" className="h-full w-full object-contain" height={1000} width={1000} alt={"images"} />
+          <Image onDoubleClick={() => (likePost.isLoading || unlikePost.isLoading || post.isFetching ? {} : like ? unlikePost.mutate({ userid: data?.user?.data.id || "", postid: post.data?.id || "" }) : likePost.mutate({ userid: data?.user?.data.id || "", postOwnerid: post.data?.userId || "", postid: post.data?.id || "" }))} src={post.data?.imageURLs[imageIndex] || "https://zjbjwmzfbmoykisvhhie.supabase.co/storage/v1/object/public/surgeapp/Assets/image-placeholder.png"} key="image" className="h-full w-full object-contain" height={1000} width={1000} alt={"images"} />
         </div>
       </div>
     );

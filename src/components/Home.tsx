@@ -1,9 +1,5 @@
 import React from "react";
-import { useRouter } from "next/router";
 import { api } from "../utils/api";
-import { useSession } from "next-auth/react";
-import { DataContext } from "../pages/_app";
-import { useContext } from "react";
 import PostItem from "./PostItem";
 import Head from "next/head";
 import Spinner from "./Spinner";

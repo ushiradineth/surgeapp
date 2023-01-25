@@ -1,4 +1,4 @@
-import React, { useState, useRef, useEffect } from "react";
+import React, { useState, useRef } from "react";
 import { BiArrowBack } from "react-icons/bi";
 import OptionMenu from "../components/OptionMenu";
 import NextImage from "next/image";
@@ -87,7 +87,7 @@ const Create = () => {
           </div>
           <div className="m-4 w-[50%]">
             <div className="flex gap-2 truncate">
-              <NextImage src={data?.user?.data.image || "/image-placeholder.png"} key="image" className="h-8 w-8 rounded-full" height={100} width={100} alt={"image"} />
+              <NextImage src={data?.user?.data.image || "https://zjbjwmzfbmoykisvhhie.supabase.co/storage/v1/object/public/surgeapp/Assets/image-placeholder.png"} key="image" className="h-8 w-8 rounded-full" height={100} width={100} alt={"image"} />
               {data?.user?.data.handle}
             </div>
             <textarea id="post-caption" placeholder="Write a caption..." maxLength={50} className={"min-h-24 mt-4 w-full rounded-xl p-2 focus:outline-none text-black"} />
@@ -100,7 +100,7 @@ const Create = () => {
   return (
     <>
       <Head>
-        <title>Create</title>
+        <title>Create a post on SurgeApp</title>
         <meta name="description" content="SurgeApp by Ushira Dineth" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
