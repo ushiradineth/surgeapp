@@ -24,6 +24,7 @@ const Auth = () => {
     const [formData, setFormData] = useState<{ email: string; password: string }>({ email: "", password: "" });
     const [emailValidation, setEmailValidation] = useState(false);
     const [passwordValidation, setPasswordValidation] = useState(false);
+    const [hcaptchaError, setHcaptchaError] = useState(true);
 
     const { email, password } = formData;
 
@@ -60,7 +61,10 @@ const Auth = () => {
       <form className="mt-3 grid gap-3 pt-3 text-center md:w-auto lg:w-auto" onSubmit={onSubmit}>
         <input type="email" name="email" id="email" placeholder="Email" className={inputStyling} onChange={onChange} />
         <input type="password" name="password" id="password" placeholder="Password" minLength={8} maxLength={20} className={inputStyling} onChange={onChange} />
-        <HCaptcha ref={captchaRef} sitekey={env.NEXT_PUBLIC_HCAPTCHA_SITE_KEY} onVerify={() => setisVerified(true)} />
+
+        <div data-testid={hcaptchaError ? "hcaptchaerror" : "hcaptcha"}>
+          <HCaptcha ref={captchaRef} onLoad={() => setHcaptchaError(false)} sitekey={env.NEXT_PUBLIC_HCAPTCHA_SITE_KEY} onVerify={() => setisVerified(true)} />
+        </div>
         <button type="submit" disabled={!emailValidation || !passwordValidation || !isVerified} className="focus:shadow-outline w-full rounded bg-blue-500 py-3 px-3 font-bold text-white focus:outline-none disabled:cursor-not-allowed disabled:bg-blue-300">
           Login
         </button>

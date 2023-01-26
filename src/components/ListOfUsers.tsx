@@ -3,7 +3,7 @@ import { BiUserPlus } from "react-icons/bi";
 import React from "react";
 import { useRouter } from "next/router";
 import ProfileLink from "./ProfileLink";
-import { type User } from "@prisma/client";
+import { type User } from "../types/types";
 
 interface itemType {
   users: User[] | undefined;
@@ -23,7 +23,7 @@ const ListOfUsers = (props: itemType) => {
             <AiOutlineClose onClick={props.onClickNegative} className="fixed top-6 right-6 scale-150 hover:cursor-pointer" />
           </div>
           {(props.users?.length || 0) > 0 ? (
-            props.users?.map((user, index) => {
+            props.users?.map((user: User, index: number) => {
               return <ProfileLink user={{ userHandle: user.handle, userID: user.id, userImage: user.image || "", userName: user.name || "" }} index={index} key={index} onClickHandler={() => router.push({ pathname: "/profile/" + user.handle })} />;
             })
           ) : (

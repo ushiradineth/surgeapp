@@ -10,6 +10,7 @@ import { IoMdAlbums } from "react-icons/io";
 import { FiCamera } from "react-icons/fi";
 import { DataContext } from "../_app";
 import Error from "../../components/Error";
+import { type Post } from "../../types/types";
 
 const Profile = () => {
   const { data: session, status } = useSession();
@@ -25,7 +26,7 @@ const Profile = () => {
       <div className="flex h-fit w-[400px] items-center justify-center pb-7 md:w-[500px] lg:w-[700px]">
         <Image className="mr-2 ml-2 mt-4 h-24 w-24 rounded-full md:mr-10 md:flex md:w-24 md:scale-125 md:justify-center" src={page?.data?.image || ""} height={96} width={96} alt="Profile Picture" priority />
         <div id="headline" className="mb-4 mt-6 ml-4 grid grid-flow-row md:h-fit md:gap-3">
-          <div id="user-info">
+          <div data-testid={"user-info"}>
             <div className="flex items-center gap-3">
               <div id="id" className="max-w-[200px] overflow-hidden text-ellipsis text-xl">
                 {page?.data?.handle}
@@ -54,7 +55,7 @@ const Profile = () => {
             page?.data?.posts
               ?.slice(0)
               .reverse()
-              .map((element, index) => (
+              .map((element: Post, index: number) => (
                 <div key={index} className={"relative h-fit w-fit"}>
                   {element.imageURLs.length > 1 && <IoMdAlbums className="absolute right-[4%] top-[4%] h-[8%] w-[8%] max-w-[30px] rotate-180 shadow-sm" />}
                   <Image src={element.imageURLs[0] || "https://zjbjwmzfbmoykisvhhie.supabase.co/storage/v1/object/public/surgeapp/Assets/image-placeholder.png"} height={500} width={500} onClick={() => router.push("/post/" + element.id)} alt={element.id} key={index} className={"aspect-square z-10 h-full max-h-[300px] w-full max-w-[300px] cursor-pointer object-cover"}></Image>

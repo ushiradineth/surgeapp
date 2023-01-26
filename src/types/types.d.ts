@@ -18,3 +18,22 @@ export interface MemoType {
   user: UserType | null;
   supabase: any | null;
 }
+
+export type Post = {
+  id: string;
+  index: number;
+  caption: string;
+  createdAt: Date;
+  userId: string;
+  imageURLs: string[];
+}
+
+export type User = {
+  id: string
+  handle: string
+  password: string | null
+  name: string | null
+  email: string | null
+  emailVerified: Date | null
+  image: string | null
+}

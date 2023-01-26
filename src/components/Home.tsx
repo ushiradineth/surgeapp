@@ -4,6 +4,7 @@ import PostItem from "./PostItem";
 import Head from "next/head";
 import Spinner from "./Spinner";
 import { FiCamera } from "react-icons/fi";
+import { type Post } from "../types/types";
 
 const Home = () => {
   const posts = api.post.getAllPosts.useQuery(undefined, { retry: false, refetchOnWindowFocus: false });
@@ -19,13 +20,18 @@ const Home = () => {
       </Head>
       <main className="pb-4">
         {(posts.data?.length || 0) > 0 ? (
-          posts.data?.map((post, index) => {
-            return (
-              <div key={index}>
-                <PostItem key={index} post={{ data: post, isLoading: posts.isLoading, isError: posts.isError, isSuccess: posts.isSuccess, isFetching: posts.isFetching }} />
-              </div>
-            );
-          })
+          posts.data?.map(
+            (
+              post: Post,
+              index: number
+            ) => {
+              return (
+                <div key={index}>
+                  <PostItem key={index} post={{ data: post, isLoading: posts.isLoading, isError: posts.isError, isSuccess: posts.isSuccess, isFetching: posts.isFetching }} />
+                </div>
+              );
+            }
+          )
         ) : (
           <div className="min-w-screen col-span-3 mt-8 flex w-full flex-col items-center">
             <>
