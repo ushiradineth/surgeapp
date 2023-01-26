@@ -61,8 +61,7 @@ const Auth = () => {
       <form className="mt-3 grid gap-3 pt-3 text-center md:w-auto lg:w-auto" onSubmit={onSubmit}>
         <input type="email" name="email" id="email" placeholder="Email" className={inputStyling} onChange={onChange} />
         <input type="password" name="password" id="password" placeholder="Password" minLength={8} maxLength={20} className={inputStyling} onChange={onChange} />
-
-        <div data-testid={hcaptchaError ? "hcaptchaerror" : "hcaptcha"}>
+        <div id={hcaptchaError ? "hcaptchaerror" : "hcaptcha"}>
           <HCaptcha ref={captchaRef} onLoad={() => setHcaptchaError(false)} sitekey={env.NEXT_PUBLIC_HCAPTCHA_SITE_KEY} onVerify={() => setisVerified(true)} />
         </div>
         <button type="submit" disabled={!emailValidation || !passwordValidation || !isVerified} className="focus:shadow-outline w-full rounded bg-blue-500 py-3 px-3 font-bold text-white focus:outline-none disabled:cursor-not-allowed disabled:bg-blue-300">
@@ -120,7 +119,7 @@ const Auth = () => {
         <input type="email" name="email" id="email" placeholder="Email" className={inputStyling} onChange={onChange} />
         <input type="password" name="password" id="password" placeholder="Password" minLength={8} maxLength={20} className={inputStyling} onChange={onChange} />
         <p className="font-semibold text-red-400">{errorState}</p>
-        <button type="submit" disabled={!emailValidation || !nameValidation || !passwordValidation} className="focus:shadow-outline w-full rounded bg-blue-500 py-3 px-3 font-bold text-white focus:outline-none disabled:cursor-not-allowed disabled:bg-blue-300">
+        <button id="registerSubmit" type="submit" disabled={!emailValidation || !nameValidation || !passwordValidation} className="focus:shadow-outline w-full rounded bg-blue-500 py-3 px-3 font-bold text-white focus:outline-none disabled:cursor-not-allowed disabled:bg-blue-300">
           Register
         </button>
       </form>
@@ -143,10 +142,10 @@ const Auth = () => {
         <div className="row-span-6 grid place-items-center lg:col-span-8 lg:col-start-1 lg:row-span-2">
           <div className="flex h-fit w-fit flex-col items-center justify-center rounded-lg bg-white">
             <div className="flex h-12 w-full select-none items-center justify-center font-semibold text-black">
-              <div className={"flex h-12 w-[50%] cursor-pointer items-center justify-center " + (!loginMenu && " rounded-br-md rounded-tl-md border-b border-r bg-gray-100 ")} onClick={() => setLoginMenu(true)}>
+              <div id="LoginBtn" className={"flex h-12 w-[50%] cursor-pointer items-center justify-center " + (!loginMenu && " rounded-br-md rounded-tl-md border-b border-r bg-gray-100 ")} onClick={() => setLoginMenu(true)}>
                 Login
               </div>
-              <div className={"flex h-12 w-[50%] cursor-pointer items-center justify-center " + (loginMenu && " rounded-bl-md rounded-tr-md border-b border-l bg-gray-100 ")} onClick={() => setLoginMenu(false)}>
+              <div id="RegisterBtn" className={"flex h-12 w-[50%] cursor-pointer items-center justify-center " + (loginMenu && " rounded-bl-md rounded-tr-md border-b border-l bg-gray-100 ")} onClick={() => setLoginMenu(false)}>
                 Register
               </div>
             </div>
