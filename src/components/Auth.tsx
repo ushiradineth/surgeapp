@@ -62,7 +62,7 @@ const Auth = () => {
         <input type="email" name="email" id="email" placeholder="Email" className={inputStyling} onChange={onChange} />
         <input type="password" name="password" id="password" placeholder="Password" minLength={8} maxLength={20} className={inputStyling} onChange={onChange} />
 
-        <div id={hcaptchaError ? "hcaptchaerror" : "hcaptcha"}>
+        <div data-testid={hcaptchaError ? "hcaptchaerror" : "hcaptcha"}>
           <HCaptcha ref={captchaRef} onLoad={() => setHcaptchaError(false)} sitekey={env.NEXT_PUBLIC_HCAPTCHA_SITE_KEY} onVerify={() => setisVerified(true)} />
         </div>
         <button type="submit" disabled={!emailValidation || !passwordValidation || !isVerified} className="focus:shadow-outline w-full rounded bg-blue-500 py-3 px-3 font-bold text-white focus:outline-none disabled:cursor-not-allowed disabled:bg-blue-300">
@@ -120,7 +120,7 @@ const Auth = () => {
         <input type="email" name="email" id="email" placeholder="Email" className={inputStyling} onChange={onChange} />
         <input type="password" name="password" id="password" placeholder="Password" minLength={8} maxLength={20} className={inputStyling} onChange={onChange} />
         <p className="font-semibold text-red-400">{errorState}</p>
-        <button type="submit" id="registerBtn" disabled={!emailValidation || !nameValidation || !passwordValidation} className="focus:shadow-outline w-full rounded bg-blue-500 py-3 px-3 font-bold text-white focus:outline-none disabled:cursor-not-allowed disabled:bg-blue-300">
+        <button type="submit" disabled={!emailValidation || !nameValidation || !passwordValidation} className="focus:shadow-outline w-full rounded bg-blue-500 py-3 px-3 font-bold text-white focus:outline-none disabled:cursor-not-allowed disabled:bg-blue-300">
           Register
         </button>
       </form>
