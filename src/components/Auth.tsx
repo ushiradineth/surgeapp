@@ -6,6 +6,7 @@ import Head from "next/head.js";
 import { api } from "../utils/api";
 import { z } from "zod";
 import HCaptcha from "@hcaptcha/react-hcaptcha";
+import Image from "next/image.js";
 
 const Auth = () => {
   const [loginMenu, setLoginMenu] = useState(true);
@@ -58,7 +59,7 @@ const Auth = () => {
     };
 
     return (
-      <form className="mt-3 grid gap-3 pt-3 text-center md:w-auto lg:w-auto" onSubmit={onSubmit}>
+      <form className="mt-3 grid gap-3 text-center" onSubmit={onSubmit}>
         <input type="email" name="email" id="email" placeholder="Email" className={inputStyling} onChange={onChange} />
         <input type="password" name="password" id="password" placeholder="Password" minLength={8} maxLength={20} className={inputStyling} onChange={onChange} />
         <div id={hcaptchaError ? "hcaptchaerror" : "hcaptcha"}>
@@ -114,7 +115,7 @@ const Auth = () => {
     };
 
     return (
-      <form className="mt-3 grid gap-3 pt-3 text-center md:w-auto lg:w-auto" onSubmit={onSubmit}>
+      <form className="mt-3 grid gap-3 text-center" onSubmit={onSubmit}>
         <input type="text" name="name" id="name" placeholder="Name" minLength={1} maxLength={100} className={inputStyling} onChange={onChange} />
         <input type="email" name="email" id="email" placeholder="Email" className={inputStyling} onChange={onChange} />
         <input type="password" name="password" id="password" placeholder="Password" minLength={8} maxLength={20} className={inputStyling} onChange={onChange} />
@@ -126,6 +127,8 @@ const Auth = () => {
     );
   };
 
+  const bgvar = Math.random() * (10 - 1) + 1
+
   return (
     <>
       <Head>
@@ -134,12 +137,17 @@ const Auth = () => {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <main className="grid-rows-12 grid h-screen w-screen grid-flow-row lg:grid-flow-col lg:grid-cols-12">
-        <div className="grid place-items-center bg-zinc-700 font-mono text-lg font-semibold text-gray-300 lg:col-span-4 lg:col-start-9 lg:row-span-2 ">
-          <p>Surge SE Intership</p>
-          <p>March 2023</p>
-          <p>Ushira Dineth</p>
+        <div className="flex items-center  justify-center bg-zinc-900 text-white lg:col-span-4 lg:col-start-9 lg:row-span-2">
+          <div className="my-2 flex h-full w-fit flex-row items-center justify-center lg:my-0 lg:flex-col lg:items-start lg:justify-center">
+            <div className="flex h-full flex-col items-start justify-center lg:mb-10 lg:h-fit">
+              <p className="text-2xl font-bold">Surge SE Intership</p>
+              <p className="text-xl">March 2023</p>
+            </div>
+            <div className="mx-10 h-[60%] border-x lg:hidden"></div>
+            <p className="grid h-full w-fit place-items-center text-2xl font-bold lg:h-fit">Ushira Dineth</p>
+          </div>
         </div>
-        <div className="row-span-6 grid place-items-center lg:col-span-8 lg:col-start-1 lg:row-span-2">
+        <div className={"row-span-6 grid place-content-center place-items-center gap-4 bg-[url('/background.jpg')] bg-center lg:col-span-8 lg:col-start-1 lg:row-span-2"}>
           <div className="flex h-fit w-fit flex-col items-center justify-center rounded-lg bg-white">
             <div className="flex h-12 w-full select-none items-center justify-center font-semibold text-black">
               <div id="LoginBtn" className={"flex h-12 w-[50%] cursor-pointer items-center justify-center " + (!loginMenu && " rounded-br-md rounded-tl-md border-b border-r bg-gray-100 ")} onClick={() => setLoginMenu(true)}>
@@ -148,6 +156,10 @@ const Auth = () => {
               <div id="RegisterBtn" className={"flex h-12 w-[50%] cursor-pointer items-center justify-center " + (loginMenu && " rounded-bl-md rounded-tr-md border-b border-l bg-gray-100 ")} onClick={() => setLoginMenu(false)}>
                 Register
               </div>
+            </div>
+            <div className="grid h-fit w-fit grid-flow-col place-items-center gap-2 rounded-lg mt-6">
+              <Image alt={"logo"} src={"/favicon.ico"} className="h-[35px] w-[35px]" width={200} height={200} />
+              <p className="text-2xl font-semibold text-zinc-900">SurgeApp</p>
             </div>
             <section className="w-[350px] rounded px-6 pb-6 pt-2 shadow-md">
               {loginMenu ? <LoginMenu /> : <RegisterMenu />}
