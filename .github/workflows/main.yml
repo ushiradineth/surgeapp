@@ -14,3 +14,9 @@ jobs:
         with:
           build: npm run build
           start: npm start
+        env:
+          NEXT_PUBLIC_NEXTAUTH_URL: http://localhost:3000
+          NEXT_PUBLIC_SUPABASE_URL: zjbjwmzfbmoykisvhhie.supabase.co
+          NEXT_PUBLIC_SUPABASE_PUBLIC_ANON_KEY: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InpqYmp3bXpmYm1veWtpc3ZoaGllIiwicm9sZSI6ImFub24iLCJpYXQiOjE2NzQ0NjQ5OTQsImV4cCI6MTk5MDA0MDk5NH0.LSlghtXGM1Q5e9vEfw2KhyQB9bneFzMMWbVQvkIn6FU
+          NEXT_PUBLIC_SUPABASE_IMAGE_URL: https://zjbjwmzfbmoykisvhhie.supabase.co/storage/v1/object/public/surgeapp/
+          NEXT_PUBLIC_HCAPTCHA_SITE_KEY: 09b0a265-7e77-438c-91a9-3ae7123a7b8b
