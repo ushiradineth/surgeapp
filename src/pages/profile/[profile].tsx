@@ -24,11 +24,11 @@ const Profile = () => {
   const UserDetails = () => {
     return (
       <div className="mx-2 my-6 flex h-fit items-center justify-center gap-4 md:gap-8">
-        <Image className="h-24 w-24 rounded-full bg-green-200 md:h-32 md:w-32" src={page?.data?.image || ""} height={200} width={200} alt="Profile Picture" priority />
+        <Image className="h-14 w-14 xsm:h-24 xsm:w-24 md:h-32 md:w-32 rounded-full bg-green-200" src={page?.data?.image || ""} height={200} width={200} alt="Profile Picture" priority />
         <div id="headline" className="grid grid-flow-row md:h-fit md:gap-3">
           <div id={"user-info"}>
             <div className="flex items-center gap-3">
-              <div id="id" className="w-fit max-w-[200px] overflow-hidden truncate text-ellipsis text-xl sm:max-w-[300px]">
+              <div id="id" className="max-w-[200px] sm:max-w-[500px] overflow-hidden truncate text-ellipsis text-xl">
                 {page?.data?.handle}
               </div>
             </div>
@@ -90,7 +90,7 @@ const Profile = () => {
         </Head>
         <main>
           {status === "unauthenticated" && <UnAuthedReminder />}
-          <div id="Background" className={"flex h-fit pb-4 select-none flex-col items-center bg-zinc-900 text-gray-300"}>
+          <div id="Background" className={"flex h-fit min-h-screen pb-4 select-none flex-col items-center bg-zinc-900 text-gray-300"}>
             <div className="mt-4 grid place-items-center">
               <UserDetails />
               <Posts />

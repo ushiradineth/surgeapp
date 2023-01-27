@@ -67,7 +67,7 @@ const PostItem = (props: { postID?: string; post?: any }) => {
         <Image className={"h-12 w-12 cursor-pointer rounded-full"} onClick={() => router.push("/profile/" + data?.user?.data.handle)} src={post.data?.user.image || ""} height={160} width={160} alt="Profile Picture" priority />
         <div className="m-4 flex w-full flex-col justify-center gap-1 truncate">
           <div className="flex gap-2">
-            <Link passHref href={"/profile/" + data?.user?.data.handle} className={"cursor-pointer " + post.data?.user.handle !== data?.user?.data.handle ? " w-[60%] " : ""}>
+            <Link passHref href={"/profile/" + data?.user?.data.handle} className={"cursor-pointer " + post.data?.user.handle !== data?.user?.data.handle ? " truncate overflow-hidden " : ""}>
               {post.data?.user.handle}
             </Link>
           </div>
@@ -141,9 +141,9 @@ const PostItem = (props: { postID?: string; post?: any }) => {
             <link rel="icon" href="/favicon.ico" />
           </Head>
         )}
-        <main>
+        <main className="flex items-center justify-center">
           {status === "unauthenticated" && <UnAuthedReminder />}
-          <div id="post" className={"flex h-[400px] mx-2 sm:mx-0 select-none flex-col items-center justify-center transition-all duration-300  md:h-[700px] md:w-[700px] " + (props.post ? " my-4 rounded-2xl border-2 border-zinc-600 md:h-fit " : " h-screen bg-zinc-700 ")}>
+          <div id="post" className={"flex h-[400px] mx-2 sm:mx-0 sm:w-[400px] w-[300px] select-none flex-col items-center justify-center transition-all duration-300  md:h-[700px] md:w-[700px] " + (props.post ? " my-4 rounded-2xl border-2 border-zinc-600 md:h-fit " : " h-screen bg-zinc-700 ")}>
             {deleteMenu && <OptionMenu buttonPositive={deletePost.isLoading ? <Spinner SpinnerOnly={true} fill={"fill-red-500"} /> : "Delete"} buttonNegative="Cancel" description="Do you want to delete this post?" title="Delete post?" onClickPositive={() => deletePost.mutate({ id: post.data?.id || "", index: post.data?.index })} onClickNegative={() => setDeleteMenu(false)} />}
             {likesMenu && <ListOfUsers users={post.data?.likes} onClickNegative={() => setLikesMenu(false)} title="Likes" />}
             <Header />
