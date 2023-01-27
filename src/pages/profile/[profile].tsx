@@ -17,18 +17,18 @@ const Profile = () => {
   const router = useRouter();
   const profile = router.query.profile as string;
   const data = useContext(DataContext);
-  
+
   const query = api.user.getUser.useQuery({ handle: String(profile) }, { retry: false, refetchOnWindowFocus: false, enabled: Boolean(((status === "authenticated" && session?.user?.handle !== String(profile)) || status === "unauthenticated") && !router.query.user) });
   const page = session?.user?.handle !== String(profile) ? query : data?.user;
 
   const UserDetails = () => {
     return (
-      <div className="flex h-fit w-[400px] items-center justify-center pb-7 md:w-[500px] lg:w-[700px]">
-        <Image className="mr-2 ml-2 mt-4 h-24 w-24 rounded-full md:mr-10 md:flex md:w-24 md:scale-125 md:justify-center" src={page?.data?.image || ""} height={96} width={96} alt="Profile Picture" priority />
-        <div id="headline" className="mb-4 mt-6 ml-4 grid grid-flow-row md:h-fit md:gap-3">
+      <div className="mx-2 my-6 flex h-fit items-center justify-center gap-4 md:gap-8">
+        <Image className="h-24 w-24 rounded-full bg-green-200 md:h-32 md:w-32" src={page?.data?.image || ""} height={200} width={200} alt="Profile Picture" priority />
+        <div id="headline" className="grid grid-flow-row md:h-fit md:gap-3">
           <div id={"user-info"}>
             <div className="flex items-center gap-3">
-              <div id="id" className="max-w-[200px] overflow-hidden text-ellipsis text-xl">
+              <div id="id" className="w-fit max-w-[200px] overflow-hidden truncate text-ellipsis text-xl sm:max-w-[300px]">
                 {page?.data?.handle}
               </div>
             </div>
@@ -39,8 +39,8 @@ const Profile = () => {
               <p>posts</p>
             </div>
           </div>
-          <div id="details" className="grid text-sm font-semibold">
-            <div id="name">{page?.data?.name}</div>
+          <div id="name" className="w-fit max-w-[200px] overflow-hidden truncate text-ellipsis text-sm font-semibold sm:max-w-[300px]">
+            {page?.data?.name}
           </div>
         </div>
       </div>
@@ -58,7 +58,7 @@ const Profile = () => {
               .map((element: Post, index: number) => (
                 <div key={index} className={"relative h-fit w-fit"}>
                   {element.imageURLs.length > 1 && <IoMdAlbums className="absolute right-[4%] top-[4%] h-[8%] w-[8%] max-w-[30px] rotate-180 shadow-sm" />}
-                  <Image src={element.imageURLs[0] || "https://zjbjwmzfbmoykisvhhie.supabase.co/storage/v1/object/public/surgeapp/Assets/image-placeholder.png"} height={500} width={500} onClick={() => router.push("/post/" + element.id)} alt={element.id} key={index} className={"aspect-square z-10 h-full max-h-[300px] w-full max-w-[300px] cursor-pointer object-cover"}></Image>
+                  <Image src={element.imageURLs[0] || "https://zjbjwmzfbmoykisvhhie.supabase.co/storage/v1/object/public/surgeapp/Assets/image-placeholder.png"} height={500} width={500} onClick={() => router.push("/post/" + element.id)} alt={element.id} key={index} className={"z-10 aspect-square h-full max-h-[300px] w-full max-w-[300px] cursor-pointer object-cover"}></Image>
                 </div>
               ))
           ) : (
@@ -77,8 +77,8 @@ const Profile = () => {
     );
   };
 
-  if(page?.isError) return <Error error="User not found" />
-  if(page?.isLoading) return <Spinner />;
+  if (page?.isError) return <Error error="User not found" />;
+  if (page?.isLoading) return <Spinner />;
 
   if (page?.isSuccess) {
     return (
@@ -90,8 +90,8 @@ const Profile = () => {
         </Head>
         <main>
           {status === "unauthenticated" && <UnAuthedReminder />}
-          <div id="Background" className={"flex h-screen select-none flex-col items-center bg-zinc-900 text-gray-300"}>
-            <div className="mt-4 grid w-fit place-items-center">
+          <div id="Background" className={"flex h-fit pb-4 select-none flex-col items-center bg-zinc-900 text-gray-300"}>
+            <div className="mt-4 grid place-items-center">
               <UserDetails />
               <Posts />
             </div>

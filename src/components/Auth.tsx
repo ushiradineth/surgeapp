@@ -137,14 +137,14 @@ const Auth = () => {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <main className="grid-rows-12 grid h-screen w-screen grid-flow-row lg:grid-flow-col lg:grid-cols-12">
-        <div className="flex items-center  justify-center bg-zinc-900 text-white lg:col-span-4 lg:col-start-9 lg:row-span-2">
-          <div className="my-2 flex h-full w-fit flex-row items-center justify-center lg:my-0 lg:flex-col lg:items-start lg:justify-center">
+        <div className="flex items-center justify-center bg-zinc-900 text-white lg:col-span-4 lg:col-start-9 lg:row-span-2">
+          <div className="my-2 flex h-full w-auto flex-row items-center justify-center lg:my-0 lg:flex-col lg:items-start lg:justify-center">
             <div className="flex h-full flex-col items-start justify-center lg:mb-10 lg:h-fit">
-              <p className="text-2xl font-bold">Surge SE Intership</p>
-              <p className="text-xl">March 2023</p>
+              <p className=" sm:text-2xl font-bold">Surge SE Intership</p>
+              <p className=" sm:text-xl">March 2023</p>
             </div>
             <div className="mx-10 h-[60%] border-x lg:hidden"></div>
-            <p className="grid h-full w-fit place-items-center text-2xl font-bold lg:h-fit">Ushira Dineth</p>
+            <p className="grid h-full w-fit place-items-center sm:text-2xl font-bold lg:h-fit">Ushira Dineth</p>
           </div>
         </div>
         <div className={"row-span-6 grid place-content-center place-items-center gap-4 bg-[url('/background.jpg')] bg-center lg:col-span-8 lg:col-start-1 lg:row-span-2"}>

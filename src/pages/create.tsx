@@ -27,7 +27,7 @@ const Create = () => {
 
   const SelectImage = () => {
     return (
-      <div className={"absolute top-1/2 left-1/2 z-30 h-[500px] w-[500px] -translate-x-1/2 -translate-y-1/2 transform rounded-2xl bg-zinc-800 text-gray-300 transition-all duration-700"}>
+      <div className={"absolute top-1/2 left-1/2 z-30 h-[450px] w-[90%] sm:w-[400px] -translate-x-1/2 -translate-y-1/2 transform rounded-2xl bg-zinc-800 text-gray-300"}>
         <div className="flex h-12 w-full items-center justify-center border-b-[1px] border-black font-semibold">Create new post</div>
         <div className="flex h-[93.7%] items-center justify-center">
           <div className="grid place-items-center gap-4">
@@ -69,7 +69,7 @@ const Create = () => {
 
   const Caption = () => {
     return (
-      <div className={"absolute top-1/2 left-1/2 z-30 h-fit min-h-[200px] w-[400px] -translate-x-1/2 -translate-y-1/2 transform rounded-2xl bg-zinc-800 text-gray-300"}>
+      <div className={"absolute top-1/2 left-1/2 z-30 h-fit w-[90%] sm:w-[550px] -translate-x-1/2 -translate-y-1/2 transform rounded-2xl bg-zinc-800 text-gray-300"}>
         <div className="flex h-12 w-full items-center justify-center font-semibold">
           <div className="grid w-full grid-flow-col grid-cols-3 border-b-[2px] py-2">
             <div className="flex cursor-pointer items-center">
