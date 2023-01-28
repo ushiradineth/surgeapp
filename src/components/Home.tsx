@@ -1,13 +1,16 @@
-import React from "react";
+import React, { useContext } from "react";
 import { api } from "../utils/api";
 import PostItem from "./PostItem";
 import Head from "next/head";
 import Spinner from "./Spinner";
 import { FiCamera } from "react-icons/fi";
 import { type Post } from "../types/types";
+import { DataContext } from "../pages/_app";
 
 const Home = () => {
   const posts = api.post.getAllPosts.useQuery(undefined, { retry: false, refetchOnWindowFocus: false });
+  const data = useContext(DataContext)
+  if(typeof data?.user?.data === "undefined") location.reload()
 
   if (posts.isLoading) return <Spinner removeBackground={true} />;
 

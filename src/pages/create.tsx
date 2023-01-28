@@ -18,12 +18,12 @@ const Create = () => {
   const [discard, setDiscard] = useState(false);
   const data = useContext(DataContext);
   const router = useRouter();
-  const { status } = useSession();
+  const { data: session, status } = useSession();
 
   const setPost = api.post.setPost.useMutation({
     onSuccess: () => {
       data?.user?.refetch();
-      router.push("/profile/" + data?.user?.data.handle);
+      router.push("/profile/" + session?.user?.handle);
     },
   });
 
@@ -89,7 +89,7 @@ const Create = () => {
           </div>
           <div className="m-4 w-[50%]">
             <div className="flex gap-2 truncate">
-              <NextImage src={data?.user?.data.image || "https://zjbjwmzfbmoykisvhhie.supabase.co/storage/v1/object/public/surgeapp/Assets/image-placeholder.png"} key="image" className="h-8 w-8 rounded-full" height={100} width={100} alt={"image"} />
+              <NextImage src={session?.user?.image || "https://zjbjwmzfbmoykisvhhie.supabase.co/storage/v1/object/public/surgeapp/Assets/image-placeholder.png"} key="image" className="h-8 w-8 rounded-full" height={100} width={100} alt={"image"} />
               {data?.user?.data.handle}
             </div>
             <textarea id="post-caption" placeholder="Write a caption..." maxLength={50} className={"min-h-24 mt-4 w-full rounded-xl p-2 focus:outline-none text-black"} />
