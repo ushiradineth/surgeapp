@@ -53,7 +53,7 @@ const PostItem = (props: { postID?: string; post?: any }) => {
   const deletePost = api.post.deletePost.useMutation({
     onSuccess: () => {
       router.pathname === "/" ? location.reload() : router.push("/");
-      data?.user?.refetch;
+      data?.user?.refetch();
     },
   });
 
@@ -64,7 +64,7 @@ const PostItem = (props: { postID?: string; post?: any }) => {
   const ProfileView = () => {
     return (
       <div className={"mt-5 flex h-12 w-fit items-center justify-center px-4 "}>
-        <img className={"h-12 w-12 cursor-pointer rounded-full"} onClick={() => router.push("/profile/" + data?.user?.data.handle)} src={post.data?.user.image || ""} height={160} width={160} alt="Profile Picture" />
+        <Image className={"h-12 w-12 cursor-pointer rounded-full"} onClick={() => router.push("/profile/" + data?.user?.data.handle)} src={post.data?.user.image || ""} height={160} width={160} alt="Profile Picture" priority />
         <div className="m-4 flex w-full flex-col justify-center gap-1 truncate">
           <div className="flex gap-2">
             <Link passHref href={"/profile/" + data?.user?.data.handle} className={"cursor-pointer " + post.data?.user.handle !== data?.user?.data.handle ? " truncate overflow-hidden " : ""}>
@@ -144,7 +144,7 @@ const PostItem = (props: { postID?: string; post?: any }) => {
         <main className="flex items-center justify-center">
           {status === "unauthenticated" && <UnAuthedReminder />}
           <div id="post" className={"flex h-[400px] sm:w-[400px] w-screen select-none flex-col items-center justify-center md:h-[700px] md:w-[700px] rounded-2xl border-2 border-zinc-600 " + (props.post ? " my-4 md:h-fit " : " h-screen ")}>
-            {deleteMenu && <OptionMenu buttonPositive={deletePost.isLoading ? <Spinner SpinnerOnly={true} fill={"fill-red-500"} /> : "Delete"} buttonNegative="Cancel" description="Do you want to delete this post?" title="Delete post?" onClickPositive={() => deletePost.mutate({ id: post.data?.id || "", index: post.data?.index })} onClickNegative={() => setDeleteMenu(false)} />}
+            {deleteMenu && <OptionMenu buttonPositive={deletePost.isLoading ? <Spinner SpinnerOnly={true} fill={"fill-red-500"} /> : "Delete"} buttonNegative="Cancel" description="Do you want to delete this post?" title="Delete post?" onClickPositive={() => deletePost.mutate({ userid: post.data.user.id, postid: post.data.id, index: post.data?.index })} onClickNegative={() => setDeleteMenu(false)} />}
             {likesMenu && <ListOfUsers users={post.data?.likes} onClickNegative={() => setLikesMenu(false)} title="Likes" />}
             <Header />
             <PostView />
