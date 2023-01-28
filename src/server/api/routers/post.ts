@@ -47,14 +47,15 @@ export const postRouter = createTRPCRouter({
     });
   }),
 
-  deletePost: protectedProcedure.input(z.object({ id: z.string(), index: z.number() })).mutation(async ({ input, ctx }) => {
+  deletePost: protectedProcedure.input(z.object({ userid: z.string(), postid: z.string(), index: z.number() })).mutation(async ({ input, ctx }) => {
     const supabase = createClient("https://" + env.NEXT_PUBLIC_SUPABASE_URL, env.NEXT_PUBLIC_SUPABASE_PUBLIC_ANON_KEY);
-    const {data, error} = await supabase.storage.from("surgeapp").remove([`Users/${input.id}/Posts/${input.index}`]);
-   
-    console.log(data, error);
+    const { data:list } = await supabase.storage.from("surgeapp").list(`Users/${input.userid}/Posts/${input.index}`);
+    
+    const filesToRemove = list?.map((x) => `Users/${input.userid}/Posts/${input.index}/${x.name}`);
+    await supabase.storage.from("surgeapp").remove(filesToRemove || [""]);    
     
     return ctx.prisma.post.delete({
-      where: { id: input.id },
+      where: { id: input.postid },
     });
   }),
 
