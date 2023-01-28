@@ -9,6 +9,7 @@ import { env } from "../env/client.mjs";
 import Spinner from "../components/Spinner";
 import Head from "next/head";
 import { useRouter } from "next/router";
+import { useSession } from "next-auth/react";
 
 const Create = () => {
   const inputRef = useRef<HTMLInputElement | null>(null);
@@ -17,6 +18,7 @@ const Create = () => {
   const [discard, setDiscard] = useState(false);
   const data = useContext(DataContext);
   const router = useRouter();
+  const { status } = useSession();
 
   const setPost = api.post.setPost.useMutation({
     onSuccess: () => {
@@ -96,6 +98,8 @@ const Create = () => {
       </div>
     );
   };
+
+  status === "unauthenticated" && router.push("/")
 
   return (
     <>
