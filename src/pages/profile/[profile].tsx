@@ -2,25 +2,21 @@ import { useSession } from "next-auth/react";
 import Head from "next/head";
 import Image from "next/image";
 import { useRouter } from "next/router";
-import React, { useContext } from "react";
 import Spinner from "../../components/Spinner";
 import { UnAuthedReminder } from "../../components/UnAuthedReminder";
 import { api } from "../../utils/api";
 import { IoMdAlbums } from "react-icons/io";
 import { FiCamera } from "react-icons/fi";
-import { DataContext } from "../_app";
 import Error from "../../components/Error";
 import { type Post } from "../../types/types";
 
 const Profile = () => {
-  const { data: session, status } = useSession();
+  const { status } = useSession();
   const router = useRouter();
   const profile = router.query.profile as string;
-  const data = useContext(DataContext);
 
-  const query = api.user.getUser.useQuery({ handle: String(profile) }, { retry: false, refetchOnWindowFocus: false, enabled: Boolean(((status === "authenticated" && session?.user?.handle !== String(profile)) || status === "unauthenticated") && !router.query.user) });
-  const page = session?.user?.handle !== String(profile) ? query : data?.user;
-
+  const page = api.user.getUser.useQuery({ handle: String(profile) }, { retry: false, refetchOnWindowFocus: false });
+  
   const UserDetails = () => {
     return (
       <div className="mx-2 my-6 flex h-fit items-center justify-center gap-4 md:gap-8">
@@ -58,7 +54,7 @@ const Profile = () => {
               .map((element: Post, index: number) => (
                 <div key={index} className={"relative h-fit w-fit"}>
                   {element.imageURLs.length > 1 && <IoMdAlbums className="absolute right-[4%] top-[4%] h-[8%] w-[8%] max-w-[30px] rotate-180 shadow-sm" />}
-                  <Image src={element.imageURLs[0] || "https://zjbjwmzfbmoykisvhhie.supabase.co/storage/v1/object/public/surgeapp/Assets/image-placeholder.png"} height={500} width={500} onClick={() => router.push("/post/" + element.id)} alt={element.id} key={index} className={"z-10 aspect-square h-full max-h-[300px] w-full max-w-[300px] cursor-pointer object-cover"} priority/>
+                  <Image src={element.imageURLs[0] || "https://zjbjwmzfbmoykisvhhie.supabase.co/storage/v1/object/public/surgeapp/Assets/image-placeholder.png"} height={500} width={500} onClick={() => router.push("/post/" + element.id)} alt={element.id} key={index} className={"z-10 aspect-square h-full h-[300px] w-[300px] cursor-pointer object-cover"} priority/>
                 </div>
               ))
           ) : (
