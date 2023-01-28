@@ -14,6 +14,7 @@ interface itemType {
   truncate?: boolean;
   hideName?: boolean;
   wfit?: boolean;
+  action?: JSX.Element;
 }
 
 const ProfileLink = (props: itemType) => {
@@ -33,6 +34,7 @@ const ProfileLink = (props: itemType) => {
           )}
         </div>
       </div>
+      {props.action && props.action}
     </Link>
   );
 };

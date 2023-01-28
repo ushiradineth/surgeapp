@@ -90,7 +90,7 @@ const Profile = () => {
         </Head>
         <main>
           {status === "unauthenticated" && <UnAuthedReminder />}
-          <div id="Background" className={"flex h-fit min-h-screen pb-4 select-none flex-col items-center bg-zinc-900 text-gray-300"}>
+          <div id="Background" className={"flex h-fit min-h-screen pb-8 select-none flex-col items-center bg-zinc-900 text-gray-300"}>
             <div className="mt-4 grid place-items-center">
               <UserDetails />
               <Posts />

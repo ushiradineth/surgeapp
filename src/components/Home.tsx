@@ -18,7 +18,7 @@ const Home = () => {
         <meta name="description" content="SurgeApp by Ushira Dineth" />
         <link rel="icon" href={"/favicon.ico"} />
       </Head>
-      <main className="pb-4">
+      <main className="pt-12 pb-4 mx-16">
         {(posts.data?.length || 0) > 0 ? (
           posts.data?.map(
             (

@@ -27,7 +27,7 @@ const Create = () => {
 
   const SelectImage = () => {
     return (
-      <div className={"absolute top-1/2 left-1/2 z-30 h-[450px] w-[90%] sm:w-[400px] -translate-x-1/2 -translate-y-1/2 transform rounded-2xl bg-zinc-800 text-gray-300"}>
+      <div className={"absolute top-1/2 left-1/2 z-30 h-[450px] w-[90%] sm:w-[400px] md:w-[700px] -translate-x-1/2 -translate-y-1/2 transform rounded-2xl bg-zinc-800 text-gray-300"}>
         <div className="flex h-12 w-full items-center justify-center border-b-[1px] border-black font-semibold">Create new post</div>
         <div className="flex h-[93.7%] items-center justify-center">
           <div className="grid place-items-center gap-4">

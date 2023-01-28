@@ -24,7 +24,7 @@ const Spinner = (props: itemType) => {
         <meta name="description" content="SurgeApp by Ushira Dineth" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      <main className={"flex min-h-screen min-w-screen flex-col items-center justify-center " + (!props.removeBackground && "bg-zinc-900")}>
+      <main className={"flex min-h-screen min-w-screen flex-col items-center justify-center " + (!props.removeBackground && "bg-zinc-900 z-50")}>
         <div className="container flex flex-col items-center justify-center gap-6 px-4 py-16">
           <div className="flex flex-col items-center">
             <div role="status">
