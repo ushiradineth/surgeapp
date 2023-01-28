@@ -77,4 +77,12 @@ export const userRouter = createTRPCRouter({
       },
     });
   }),
+
+  getUsersSearch: protectedProcedure.input(z.object({ key: z.string() })).mutation(({ input, ctx }) => {
+    return ctx.prisma.user.findMany({
+      where: {
+        OR: [{ handle: { contains: input.key } }, { name: { contains: input.key } }],
+      },
+    });
+  }),
 });
