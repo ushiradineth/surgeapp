@@ -14,8 +14,6 @@ const NavBar = (props: { user: any }) => {
   const router = useRouter();
   const { data: session } = useSession();
 
-  console.log(router.pathname);
-
   if (typeof session === "undefined" || session === null || typeof session.user === "undefined" || [""].includes(router.pathname)) return <></>;
 
   return (
